@@ -226,7 +226,7 @@
             border-radius: 5px;
         }
 
-        /* --- قسم البومودورو --- */
+        /* --- قسم البومودورو الجديد --- */
         #pomodoro {
             background-color: var(--bg-color);
         }
@@ -266,38 +266,6 @@
             color: white;
             border-color: var(--accent-color);
             box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        /* حقل الإدخال للوقت المخصص */
-        .custom-input-wrapper {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.3s ease;
-        }
-
-        .custom-time-input {
-            width: 80px;
-            padding: 8px 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.3);
-            color: white;
-            font-size: 1.1rem;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            outline: none;
-            transition: border 0.3s;
-        }
-
-        .custom-time-input:focus {
-            border-color: var(--accent-color);
-        }
-
-        .custom-time-input::placeholder {
-            color: rgba(255, 255, 255, 0.3);
         }
 
         .pomo-controls {
@@ -365,6 +333,64 @@
             border-color: white;
         }
 
+        /* --- قسم القوانين --- */
+        #rules {
+            background-color: var(--section-bg);
+        }
+
+        .rules-wrapper {
+            max-width: 1000px !important;
+        }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        html[dir="rtl"] .rules-grid {
+            text-align: right;
+        }
+
+        .rule-card {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .rule-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .rule-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .rule-header i {
+            font-size: 1.3rem;
+        }
+
+        .rule-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
         /* --- الفوتر --- */
         footer {
             text-align: center;
@@ -381,6 +407,7 @@
             .card-container { padding: 30px 20px; }
             .nav-links { gap: 15px; flex-wrap: wrap; justify-content: center; }
             .join-btn { padding: 14px 28px; font-size: 1rem; }
+            .rules-grid { grid-template-columns: 1fr; }
             .timer-display { font-size: 4rem; }
             .pomo-controls { flex-direction: column; }
         }
@@ -394,6 +421,7 @@
             <a href="#home" data-i18n="nav_home">Home</a>
             <a href="#about" data-i18n="nav_about">Who We Are</a>
             <a href="#pomodoro" data-i18n="nav_pomodoro">Pomodoro</a>
+            <a href="#rules" data-i18n="nav_rules">Server Rules</a>
             <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">
                 <i class="fa-solid fa-globe"></i> <span id="langText">عربي</span>
             </button>
@@ -424,12 +452,6 @@
                 <button class="mode-btn active" id="mode-work" onclick="setMode('work')" data-i18n="pomo_work">Deep Work</button>
                 <button class="mode-btn" id="mode-short" onclick="setMode('shortBreak')" data-i18n="pomo_short">Short Break</button>
                 <button class="mode-btn" id="mode-long" onclick="setMode('longBreak')" data-i18n="pomo_long">Long Break</button>
-                <button class="mode-btn" id="mode-custom" onclick="openCustomMode()" data-i18n="pomo_custom">Custom</button>
-            </div>
-
-            <div class="custom-input-wrapper" id="customInputWrapper">
-                <input type="number" id="customMinutes" class="custom-time-input" min="1" max="180" placeholder="Min">
-                <button class="mode-btn" onclick="applyCustomTime()" style="padding: 8px 15px; border-radius: 12px;" data-i18n="pomo_apply">Set Time</button>
             </div>
 
             <div class="timer-display" id="timerDisplay">25:00</div>
@@ -455,6 +477,65 @@
         </div>
     </section>
 
+    <section id="rules">
+        <div class="card-container rules-wrapper">
+            <h2 data-i18n="rules_title">Server Rules</h2>
+            <div class="rules-grid">
+                
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-handshake"></i> <span data-i18n="rule_1_title">1. Respect is Key</span></div>
+                    <p data-i18n="rule_1_desc">No insults, belittling, bullying, or disrespect towards anyone.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-regular fa-face-smile-beam"></i> <span data-i18n="rule_2_title">2. Keep Jokes Light</span></div>
+                    <p data-i18n="rule_2_desc">Joking is fine, but if it bothers someone, stop it.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-ban"></i> <span data-i18n="rule_3_title">3. No Spamming</span></div>
+                    <p data-i18n="rule_3_desc">Do not repeat messages or mentions pointlessly.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="rule_4_title">4. No NSFW Content</span></div>
+                    <p data-i18n="rule_4_desc">Anything inappropriate or explicit is strictly forbidden.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-mosque"></i> <span data-i18n="rule_5_title">5. No Mocking Religion</span></div>
+                    <p data-i18n="rule_5_desc">This is a Muslim server, so mocking or joking about religion is strictly prohibited. This is serious, no joking around.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-link-slash"></i> <span data-i18n="rule_6_title">6. No Unauthorized Links</span></div>
+                    <p data-i18n="rule_6_desc">Any link must be approved by the administration.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-signs-post"></i> <span data-i18n="rule_7_title">7. Use Channels Correctly</span></div>
+                    <p data-i18n="rule_7_desc">Post in the right place to keep things organized.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="rule_8_title">8. Resolve Issues Calmly</span></div>
+                    <p data-i18n="rule_8_desc">Do not drag fights into the public chat.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-user-shield"></i> <span data-i18n="rule_9_title">9. Privacy is a Red Line</span></div>
+                    <p data-i18n="rule_9_desc">Do not share anyone's personal information.</p>
+                </div>
+
+                <div class="rule-card">
+                    <div class="rule-header"><i class="fa-solid fa-gavel"></i> <span data-i18n="rule_10_title">10. Admin Decisions are Final</span></div>
+                    <p data-i18n="rule_10_desc">Any violation will result in action, starting with a warning and potentially a ban.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
     <footer>
         <p data-i18n="footer_text">&copy; 2026 Academic Society. All rights reserved</p>
     </footer>
@@ -466,6 +547,7 @@
                 nav_home: "Home",
                 nav_about: "Who We Are",
                 nav_pomodoro: "Pomodoro",
+                nav_rules: "Server Rules",
                 hero_title: "What's up! Welcome to <span>Academic Society</span>",
                 hero_desc: "Your chill spot to learn, share cool ideas, and level up together. Hop in and let's build the future, bro.",
                 hero_btn: "Jump into Discord",
@@ -476,18 +558,38 @@
                 pomo_work: "Deep Work",
                 pomo_short: "Short Break",
                 pomo_long: "Long Break",
-                pomo_custom: "Custom",
-                pomo_apply: "Set Time",
                 pomo_start: "Start",
                 pomo_pause: "Pause",
                 pomo_reset: "Reset",
                 pomo_bg_title: "Change The Vibe",
+                rules_title: "Server Rules",
+                rule_1_title: "1. Respect is Key",
+                rule_1_desc: "No insults, belittling, bullying, or disrespect towards anyone.",
+                rule_2_title: "2. Keep Jokes Light",
+                rule_2_desc: "Joking is fine, but if it bothers someone, stop it.",
+                rule_3_title: "3. No Spamming",
+                rule_3_desc: "Do not repeat messages or mentions pointlessly.",
+                rule_4_title: "4. No NSFW Content",
+                rule_4_desc: "Anything inappropriate or explicit is strictly forbidden.",
+                rule_5_title: "5. No Mocking Religion",
+                rule_5_desc: "This is a Muslim server, so mocking or joking about religion is strictly prohibited. This is serious, no joking around.",
+                rule_6_title: "6. No Unauthorized Links",
+                rule_6_desc: "Any link must be sent after admin approval.",
+                rule_7_title: "7. Use Channels Correctly",
+                rule_7_desc: "Post in the right place to keep things organized.",
+                rule_8_title: "8. Resolve Issues Calmly",
+                rule_8_desc: "Do not drag fights into the public chat.",
+                rule_9_title: "9. Privacy is a Red Line",
+                rule_9_desc: "Do not share anyone's personal information.",
+                rule_10_title: "10. Admin Decisions are Final",
+                rule_10_desc: "Any violation will result in action, starting with a warning and potentially a ban.",
                 footer_text: "© 2026 Academic Society. All rights reserved"
             },
             ar: {
                 nav_home: "الرئيسية",
                 nav_about: "مين إحنا؟",
                 nav_pomodoro: "بومودورو",
+                nav_rules: "قوانين السيرفر",
                 hero_title: "يا هلا بيك في <span>Academic Society</span>",
                 hero_desc: "مكانك الرايق للتعليم ومشاركة الأفكار الحلوة. بنكبر مع بعض وبنعلي دماغنا. انضم لشلتنا وخليك جزء من المستقبل يا غالي.",
                 hero_btn: "نورنا ع الديسكورد",
@@ -498,12 +600,31 @@
                 pomo_work: "وقت الشغل",
                 pomo_short: "بريك خفيف",
                 pomo_long: "بريك طويل",
-                pomo_custom: "بمزاجي",
-                pomo_apply: "ظبط الوقت",
                 pomo_start: "ابدأ",
                 pomo_pause: "وقف",
                 pomo_reset: "عيد من الأول",
                 pomo_bg_title: "غير المود (الخلفية)",
+                rules_title: "قوانين السيرفر",
+                rule_1_title: "1. الاحترام أساس كل حاجة",
+                rule_1_desc: "مفيش شتيمة، تقليل، تنمر، أو قلة أدب على أي حد.",
+                rule_2_title: "2. بلاش هزار تقيل",
+                rule_2_desc: "الهزار حلو، بس لو هيضايق حد يبقى بلاش منه.",
+                rule_3_title: "3. مفيش سبام",
+                rule_3_desc: "ممنوع تكرار رسايل أو منشنات عالفاضي.",
+                rule_4_title: "4. مفيش محتوى +18",
+                rule_4_desc: "أي حاجة غير لائقة أو خارجة برا الأدب ممنوعة.",
+                rule_5_title: "5. ممنوع الاستهزاء بالدين",
+                rule_5_desc: "السيرفر مسلم، فمفيش سخرية أو هزار على الدين أو شعائره. النقطة دي جد ومفيهاش هزار.",
+                rule_6_title: "6. ممنوع نشر روابط من غير إذن",
+                rule_6_desc: "أي لينك يتبعت بعد إذن الإدارة.",
+                rule_7_title: "7. كل روم ليها استخدام",
+                rule_7_desc: "اكتب في المكان الصح عشان الدنيا تفضل منظمة.",
+                rule_8_title: "8. حل مشاكلك بهدوء",
+                rule_8_desc: "مفيش نقل خناقات للشات العام.",
+                rule_9_title: "9. خصوصية الأعضاء خط أحمر",
+                rule_9_desc: "ممنوع نشر معلومات شخصية لأي حد.",
+                rule_10_title: "10. الإدارة قرارها نهائي",
+                rule_10_desc: "أي مخالفة ليها إجراء يبدأ بتحذير وممكن يوصل لباند.",
                 footer_text: "© 2026 Academic Society. كل الحقوق محفوظة ."
             }
         };
@@ -533,8 +654,7 @@
 
         // --- إعدادات البومودورو (Pomodoro Logic) ---
         let timerInterval;
-        let timeLeft = 25 * 60; // الافتراضي 25 دقيقة
-        let customTimeValue = 25 * 60; // لحفظ الوقت المخصص
+        let timeLeft = 25 * 60; // 25 دقايق بالثواني
         let isRunning = false;
         
         const modes = {
@@ -551,7 +671,6 @@
         }
 
         function setMode(mode) {
-            document.getElementById('customInputWrapper').style.display = 'none'; // نخفي حقل الإدخال
             clearInterval(timerInterval);
             isRunning = false;
             timeLeft = modes[mode];
@@ -564,29 +683,6 @@
             if(mode === 'longBreak') document.getElementById('mode-long').classList.add('active');
             
             updateTimerText();
-        }
-
-        function openCustomMode() {
-            clearInterval(timerInterval);
-            isRunning = false;
-            updateTimerText();
-
-            // إظهار حقل الإدخال
-            document.getElementById('customInputWrapper').style.display = 'flex';
-            
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('mode-custom').classList.add('active');
-        }
-
-        function applyCustomTime() {
-            const minutes = parseInt(document.getElementById('customMinutes').value);
-            if(minutes && minutes > 0) {
-                customTimeValue = minutes * 60;
-                timeLeft = customTimeValue;
-                updateDisplay();
-            } else {
-                alert(currentLang === 'ar' ? "اكتب وقت مظبوط يا غالي!" : "Please enter a valid time!");
-            }
         }
 
         function toggleTimer() {
@@ -612,12 +708,10 @@
         function resetTimer() {
             clearInterval(timerInterval);
             isRunning = false;
-            
             // إرجاع الوقت حسب المود الحالي
             if (document.getElementById('mode-work').classList.contains('active')) timeLeft = modes.work;
             else if (document.getElementById('mode-short').classList.contains('active')) timeLeft = modes.shortBreak;
-            else if (document.getElementById('mode-long').classList.contains('active')) timeLeft = modes.longBreak;
-            else if (document.getElementById('mode-custom').classList.contains('active')) timeLeft = customTimeValue;
+            else timeLeft = modes.longBreak;
             
             updateDisplay();
             updateTimerText();
@@ -640,7 +734,7 @@
             document.getElementById('pomoCard').style.background = color;
         }
 
-        // إعداد البداية
+        // Initialize display
         updateDisplay();
     </script>
 </body>
