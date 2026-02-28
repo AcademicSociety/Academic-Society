@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Society</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- الإعدادات الأساسية والألوان --- */
+        :root {
+            --primary-color: #0f172a;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --bg-color: #020617;
+            --section-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', 'Cairo', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            transition: opacity 0.3s ease;
+        }
+
+        /* --- شريط التنقل --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 8%;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .lang-btn {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-main);
+        }
+
+        /* --- الأقسام --- */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 100px 8% 50px;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        #home {
+            background: linear-gradient(to bottom, rgba(2, 6, 23, 0.8), rgba(2, 6, 23, 1)), 
+                        url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            position: relative;
+        }
+
+        #home > * {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            animation-delay: 0.2s;
+        }
+
+        h1 span {
+            background: linear-gradient(45deg, var(--accent-color), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin-bottom: 40px;
+            animation-delay: 0.4s;
+        }
+
+        .join-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background-color: #5865F2;
+            color: white;
+            padding: 16px 36px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px -5px rgba(88, 101, 242, 0.5);
+            transition: all 0.3s ease;
+            animation-delay: 0.6s;
+        }
+
+        .join-btn:hover {
+            background-color: #4752C4;
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px -5px rgba(88, 101, 242, 0.6);
+        }
+
+        .card-container {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            max-width: 800px;
+            width: 100%;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            color: var(--text-main);
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            width: 50%;
+            height: 3px;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-color);
+            border-radius: 5px;
+        }
+
+        /* --- قسم المشاريع والفورم --- */
+        #projects {
+            background-color: var(--bg-color);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        html[dir="rtl"] form {
+            text-align: right;
+        }
+
+        input[type="text"], input[type="email"], textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        /* تنسيق زر رفع الملفات الجديد */
+        .file-upload-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(59, 130, 246, 0.05);
+            border: 2px dashed rgba(59, 130, 246, 0.4);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .file-upload-label:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-color);
+            color: var(--text-main);
+        }
+
+        .file-upload-label i {
+            font-size: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .submit-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* --- الفوتر --- */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--section-bg);
+            color: var(--text-muted);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 5%; flex-direction: column; gap: 15px; }
+            h1 { font-size: 2.5rem; }
+            .card-container { padding: 30px 20px; }
+            .nav-links { gap: 15px; flex-wrap: wrap; justify-content: center; }
+            .join-btn { padding: 14px 28px; font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="#home" class="logo"><i class="fa-solid fa-graduation-cap"></i> Academic <span>Society</span></a>
+        <div class="nav-links">
+            <a href="#home" data-i18n="nav_home">Home</a>
+            <a href="#about" data-i18n="nav_about">Who We Are</a>
+            <a href="#projects" data-i18n="nav_projects">Drop a Project</a>
+            <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">
+                <i class="fa-solid fa-globe"></i> <span id="langText">عربي رايق</span>
+            </button>
+        </div>
+    </nav>
+
+    <section id="home">
+        <h1 data-i18n="hero_title">What's up! Welcome to <span>Academic Society</span></h1>
+        <p data-i18n="hero_desc">Your chill spot to learn, share cool ideas, and level up together. Hop in and let's build the future, bro.</p>
+        <a href="https://discord.gg/7eYzD5evsE" target="_blank" class="join-btn">
+            <i class="fa-brands fa-discord fa-lg"></i> <span data-i18n="hero_btn">Jump into Discord</span>
+        </a>
+    </section>
+
+    <section id="about">
+        <div class="card-container">
+            <h2 data-i18n="about_title">Who Are We?</h2>
+            <p data-i18n="about_desc" style="margin-top: 20px;">We’re basically the ultimate hangout for students and geeks. The vibe here is all about focus and zero drama, so we can study, collab, and grow together without distractions.</p>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="card-container">
+            <h2 data-i18n="proj_title">Show Off Your Work</h2>
+            <p data-i18n="proj_desc" style="margin-top: 20px;">Cooked up something cool with HTML? Drop it below! Our admins will take a look, and if it's fire, it goes straight to the front page.</p>
+            
+            <form action="https://formsubmit.co/academicsociety11@gmail.com" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="_subject" value="شغل جديد مبعوت للموقع يا باشا - Academic Society!">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <input type="text" name="name" required data-i18n-placeholder="form_name" placeholder="Your Name, bro">
+                <input type="email" name="email" required data-i18n-placeholder="form_email" placeholder="Your Email">
+                <input type="text" name="project_name" required data-i18n-placeholder="form_proj_name" placeholder="Project Name">
+                <textarea name="project_code" rows="4" data-i18n-placeholder="form_code" placeholder="Paste the code or link right here..."></textarea>
+                
+                <div class="file-upload-container">
+                    <input type="file" name="project_file" id="project_file" accept=".zip,.rar,.7z,.html,.css,.js" style="display: none;">
+                    <label for="project_file" class="file-upload-label">
+                        <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <span id="file-name" data-i18n="form_file_label">Upload your .zip file here, boss</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn" data-i18n="form_btn">Send it!</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p data-i18n="footer_text">&copy; 2026 Academic Society. All rights reserved, boss.</p>
+    </footer>
+
+    <script>
+        const translations = {
+            en: {
+                nav_home: "Home",
+                nav_about: "Who We Are",
+                nav_projects: "Drop a Project",
+                hero_title: "What's up! Welcome to <span>Academic Society</span>",
+                hero_desc: "Your chill spot to learn, share cool ideas, and level up together. Hop in and let's build the future, bro.",
+                hero_btn: "Jump into Discord",
+                about_title: "Who Are We?",
+                about_desc: "We’re basically the ultimate hangout for students and geeks. The vibe here is all about focus and zero drama, so we can study, collab, and grow together without distractions.",
+                proj_title: "Show Off Your Work",
+                proj_desc: "Cooked up something cool? Drop the code or upload your files below! Our admins will take a look.",
+                form_btn: "Send it!",
+                footer_text: "© 2026 Academic Society. All rights reserved, boss.",
+                form_name: "Your Name, bro",
+                form_email: "Your Email",
+                form_proj_name: "Project Name",
+                form_code: "Paste the HTML code or link right here... (Optional)",
+                form_file_label: "Upload your .zip file here, boss"
+            },
+            ar: {
+                nav_home: "الرئيسية",
+                nav_about: "مين إحنا؟",
+                nav_projects: "ارمي مشروعك",
+                hero_title: "يا هلا بيك في <span>Academic Society</span>",
+                hero_desc: "مكانك الرايق للتعليم ومشاركة الأفكار الحلوة. بنكبر مع بعض وبنعلي دماغنا. انضم لشلتنا وخليك جزء من المستقبل يا غالي.",
+                hero_btn: "نورنا ع الديسكورد",
+                about_title: "مين إحنا؟",
+                about_desc: "أكاديميك سوسايتي ده التجمع بتاع الدحيحة والناس اللي بتحب تفهم. هدفنا نعمل بيئة رايقة ومفصلة على مقاسك، بعيد عن الدوشة، عشان نذاكر، نتعاون، ونطور من نفسنا سوا.",
+                proj_title: "ورّينا إبداعك",
+                proj_desc: "عامل شغل عالي؟ ارمي الكود بتاعك أو ارفع ملفاتك هنا يا فنان! الأدمنز هيراجعوه ولو تمام، هينور موقعنا باسمك.",
+                form_btn: "ابعت يا باشا",
+                footer_text: "© 2026 Academic Society. كل الحقوق محفوظة يا ريس.",
+                form_name: "اسمك يا غالي",
+                form_email: "إيميلك عشان نتواصل معاك",
+                form_proj_name: "اسم المشروع إيه؟",
+                form_code: "ارزع الكود هنا أو حط اللينك... (اختياري)",
+                form_file_label: "ارفع ملف الـ zip بتاعك من هنا يا فنان"
+            }
+        };
+
+        let currentLang = 'en';
+
+        // تغيير اسم الملف لما اليوزر يختار ملف
+        document.getElementById('project_file').addEventListener('change', function(e) {
+            const fileNameSpan = document.getElementById('file-name');
+            if (this.files && this.files.length > 0) {
+                fileNameSpan.textContent = this.files[0].name;
+                fileNameSpan.style.color = 'var(--accent-color)';
+            } else {
+                fileNameSpan.textContent = translations[currentLang]['form_file_label'];
+                fileNameSpan.style.color = 'var(--text-muted)';
+            }
+        });
+
+        function toggleLanguage() {
+            document.body.style.opacity = '0';
+            
+            setTimeout(() => {
+                currentLang = currentLang === 'en' ? 'ar' : 'en';
+                
+                document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+                document.documentElement.lang = currentLang;
+
+                const elements = document.querySelectorAll('[data-i18n]');
+                elements.forEach(el => {
+                    const key = el.getAttribute('data-i18n');
+                    el.innerHTML = translations[currentLang][key];
+                });
+
+                const placeholders = document.querySelectorAll('[data-i18n-placeholder]');
+                placeholders.forEach(el => {
+                    const key = el.getAttribute('data-i18n-placeholder');
+                    el.placeholder = translations[currentLang][key];
+                });
+
+                // تحديث اسم الملف لو مفيش ملف مرفوع
+                const fileInput = document.getElementById('project_file');
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    document.getElementById('file-name').textContent = translations[currentLang]['form_file_label'];
+                }
+
+                // تغيير اسم الزرار بناءً على اللغة الحالية
+                document.getElementById('langText').textContent = currentLang === 'en' ? 'عربي' : 'English';
+                document.body.style.opacity = '1';
+            }, 300);
+        }
+    </script>
+</body>
+</html>
