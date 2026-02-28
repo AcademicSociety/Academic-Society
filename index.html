@@ -226,7 +226,7 @@
             border-radius: 5px;
         }
 
-        /* --- قسم البومودورو الجديد --- */
+        /* --- قسم البومودورو --- */
         #pomodoro {
             background-color: var(--bg-color);
         }
@@ -391,11 +391,89 @@
             line-height: 1.6;
         }
 
+        /* --- قسم التحميلات الجديد --- */
+        #downloads {
+            background-color: var(--bg-color);
+        }
+
+        .downloads-wrapper {
+            max-width: 1100px !important;
+        }
+
+        .downloads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        .download-card {
+            background: rgba(2, 6, 23, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        html[dir="rtl"] .download-card {
+            text-align: right;
+        }
+
+        .download-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-color);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.15);
+            background: rgba(15, 23, 42, 0.9);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .download-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
         /* --- الفوتر --- */
         footer {
             text-align: center;
             padding: 30px;
-            background-color: var(--bg-color);
+            background-color: var(--section-bg);
             color: var(--text-muted);
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 0.95rem;
@@ -407,7 +485,7 @@
             .card-container { padding: 30px 20px; }
             .nav-links { gap: 15px; flex-wrap: wrap; justify-content: center; }
             .join-btn { padding: 14px 28px; font-size: 1rem; }
-            .rules-grid { grid-template-columns: 1fr; }
+            .rules-grid, .downloads-grid { grid-template-columns: 1fr; }
             .timer-display { font-size: 4rem; }
             .pomo-controls { flex-direction: column; }
         }
@@ -422,6 +500,7 @@
             <a href="#about" data-i18n="nav_about">Who We Are</a>
             <a href="#pomodoro" data-i18n="nav_pomodoro">Pomodoro</a>
             <a href="#rules" data-i18n="nav_rules">Server Rules</a>
+            <a href="#downloads" data-i18n="nav_downloads">Downloads</a>
             <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">
                 <i class="fa-solid fa-globe"></i> <span id="langText">عربي</span>
             </button>
@@ -481,57 +560,82 @@
         <div class="card-container rules-wrapper">
             <h2 data-i18n="rules_title">Server Rules</h2>
             <div class="rules-grid">
-                
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-handshake"></i> <span data-i18n="rule_1_title">1. Respect is Key</span></div>
                     <p data-i18n="rule_1_desc">No insults, belittling, bullying, or disrespect towards anyone.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-regular fa-face-smile-beam"></i> <span data-i18n="rule_2_title">2. Keep Jokes Light</span></div>
                     <p data-i18n="rule_2_desc">Joking is fine, but if it bothers someone, stop it.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-ban"></i> <span data-i18n="rule_3_title">3. No Spamming</span></div>
                     <p data-i18n="rule_3_desc">Do not repeat messages or mentions pointlessly.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="rule_4_title">4. No NSFW Content</span></div>
                     <p data-i18n="rule_4_desc">Anything inappropriate or explicit is strictly forbidden.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-mosque"></i> <span data-i18n="rule_5_title">5. No Mocking Religion</span></div>
                     <p data-i18n="rule_5_desc">This is a Muslim server, so mocking or joking about religion is strictly prohibited. This is serious, no joking around.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-link-slash"></i> <span data-i18n="rule_6_title">6. No Unauthorized Links</span></div>
                     <p data-i18n="rule_6_desc">Any link must be approved by the administration.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-signs-post"></i> <span data-i18n="rule_7_title">7. Use Channels Correctly</span></div>
                     <p data-i18n="rule_7_desc">Post in the right place to keep things organized.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="rule_8_title">8. Resolve Issues Calmly</span></div>
                     <p data-i18n="rule_8_desc">Do not drag fights into the public chat.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-user-shield"></i> <span data-i18n="rule_9_title">9. Privacy is a Red Line</span></div>
                     <p data-i18n="rule_9_desc">Do not share anyone's personal information.</p>
                 </div>
-
                 <div class="rule-card">
                     <div class="rule-header"><i class="fa-solid fa-gavel"></i> <span data-i18n="rule_10_title">10. Admin Decisions are Final</span></div>
                     <p data-i18n="rule_10_desc">Any violation will result in action, starting with a warning and potentially a ban.</p>
                 </div>
+            </div>
+        </div>
+    </section>
 
+    <section id="downloads">
+        <div class="card-container downloads-wrapper">
+            <h2 data-i18n="downloads_title">Software Hub</h2>
+            <p data-i18n="downloads_desc" style="margin-top: 10px; color: var(--text-muted);">Download all the essential tools and programs we've built specifically for our community.</p>
+
+            <div class="downloads-grid">
+                <div class="download-card">
+                    <i class="fa-solid fa-book-quran card-icon"></i>
+                    <h3 class="card-title" data-i18n="prog1_title">Al Maher</h3>
+                    <p class="card-desc" data-i18n="prog1_desc">Al Maher Desktop application for the Holy Quran.</p>
+                    <a href="files/myprogram1.zip" download class="download-btn">
+                        <i class="fa-solid fa-download"></i> <span data-i18n="btn_download">Download</span>
+                    </a>
+                </div>
+
+                <div class="download-card">
+                    <i class="fa-solid fa-broom card-icon"></i>
+                    <h3 class="card-title" data-i18n="prog2_title">Eto Temp Cleaner</h3>
+                    <p class="card-desc" data-i18n="prog2_desc">Cache cleaner and PC speed-up tool.</p>
+                    <a href="files/myprogram2.zip" download class="download-btn">
+                        <i class="fa-solid fa-download"></i> <span data-i18n="btn_download">Download</span>
+                    </a>
+                </div>
+
+                <div class="download-card">
+                    <i class="fa-solid fa-image card-icon"></i>
+                    <h3 class="card-title" data-i18n="prog3_title">Converter Images</h3>
+                    <p class="card-desc" data-i18n="prog3_desc">Easy-to-use image format converter software.</p>
+                    <a href="files/myprogram3.zip" download class="download-btn">
+                        <i class="fa-solid fa-download"></i> <span data-i18n="btn_download">Download</span>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -548,6 +652,7 @@
                 nav_about: "Who We Are",
                 nav_pomodoro: "Pomodoro",
                 nav_rules: "Server Rules",
+                nav_downloads: "Downloads",
                 hero_title: "What's up! Welcome to <span>Academic Society</span>",
                 hero_desc: "Your chill spot to learn, share cool ideas, and level up together. Hop in and let's build the future, bro.",
                 hero_btn: "Jump into Discord",
@@ -583,6 +688,18 @@
                 rule_9_desc: "Do not share anyone's personal information.",
                 rule_10_title: "10. Admin Decisions are Final",
                 rule_10_desc: "Any violation will result in action, starting with a warning and potentially a ban.",
+                
+                // ترجمات قسم التحميلات الجديدة
+                downloads_title: "Software Hub",
+                downloads_desc: "Download all the essential tools and programs we've built specifically for our community.",
+                prog1_title: "Al Maher",
+                prog1_desc: "Al Maher Desktop application for the Holy Quran.",
+                prog2_title: "Eto Temp Cleaner",
+                prog2_desc: "Cache cleaner and PC speed-up tool.",
+                prog3_title: "Converter Images",
+                prog3_desc: "Easy-to-use image format converter software.",
+                btn_download: "Download",
+
                 footer_text: "© 2026 Academic Society. All rights reserved"
             },
             ar: {
@@ -590,6 +707,7 @@
                 nav_about: "مين إحنا؟",
                 nav_pomodoro: "بومودورو",
                 nav_rules: "قوانين السيرفر",
+                nav_downloads: "التحميلات",
                 hero_title: "يا هلا بيك في <span>Academic Society</span>",
                 hero_desc: "مكانك الرايق للتعليم ومشاركة الأفكار الحلوة. بنكبر مع بعض وبنعلي دماغنا. انضم لشلتنا وخليك جزء من المستقبل يا غالي.",
                 hero_btn: "نورنا ع الديسكورد",
@@ -625,6 +743,18 @@
                 rule_9_desc: "ممنوع نشر معلومات شخصية لأي حد.",
                 rule_10_title: "10. الإدارة قرارها نهائي",
                 rule_10_desc: "أي مخالفة ليها إجراء يبدأ بتحذير وممكن يوصل لباند.",
+                
+                // ترجمات قسم التحميلات الجديدة
+                downloads_title: "مركز التحميلات",
+                downloads_desc: "حمل كل البرامج والأدوات اللي برمجناها مخصوص عشان تفيد أعضاء السيرفر بتاعنا.",
+                prog1_title: "Al Maher",
+                prog1_desc: "برنامج القرآن الكريم الماهر لسطح المكتب",
+                prog2_title: "Eto Temp Cleaner",
+                prog2_desc: "أداة تنظيف الكاش وتسريع الجهاز",
+                prog3_title: "Converter Images",
+                prog3_desc: "برنامج تحويل صيغ الصور بكل سهولة",
+                btn_download: "تحميل البرنامج",
+
                 footer_text: "© 2026 Academic Society. كل الحقوق محفوظة ."
             }
         };
@@ -643,11 +773,11 @@
                 const elements = document.querySelectorAll('[data-i18n]');
                 elements.forEach(el => {
                     const key = el.getAttribute('data-i18n');
-                    el.innerHTML = translations[currentLang][key];
+                    el.innerHTML = translations[currentLang][key]; // خليناها innerHTML عشان الـ span
                 });
 
                 document.getElementById('langText').textContent = currentLang === 'en' ? 'عربي' : 'English';
-                updateTimerText(); // تحديث زرار البومودورو
+                updateTimerText(); 
                 document.body.style.opacity = '1';
             }, 300);
         }
