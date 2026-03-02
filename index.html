@@ -7,9 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-
     <style>
         /* --- الإعدادات الأساسية والألوان --- */
         :root {
@@ -122,77 +119,11 @@
         .download-btn { display: inline-flex; justify-content: center; align-items: center; gap: 10px; background-color: var(--accent-color); color: white; padding: 12px 24px; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; width: 100%; margin-top: auto;}
         .download-btn:hover { background-color: var(--accent-hover); }
 
-        /* =========================================
-           --- قسم القرآن الكريم (QURAN SECTION) ---
-           ========================================= */
-        #quran { background-color: var(--section-bg); padding-bottom: 150px;}
-        .quran-wrapper { max-width: 1200px !important; padding: 40px !important;}
-        
-        .quran-tabs { display: flex; gap: 10px; justify-content: center; background-color: rgba(0,0,0,0.3); padding: 8px; border-radius: 50px; margin: 20px auto 30px; max-width: fit-content;}
-        .q-tab-btn { background: transparent; border: none; color: var(--text-muted); padding: 10px 30px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 8px; font-family: inherit;}
-        .q-tab-btn.active { background-color: #10b981; color: white; }
-        
-        .q-search-box { position: relative; max-width: 600px; margin: 0 auto 30px; }
-        .q-search-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
-        html[dir="ltr"] .q-search-box i { right: auto; left: 20px; }
-        .q-search-box input { width: 100%; padding: 15px 45px 15px 20px; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); background-color: rgba(0,0,0,0.3); color: white; font-size: 1rem; outline: none; font-family: inherit;}
-        html[dir="ltr"] .q-search-box input { padding: 15px 20px 15px 45px; }
-        .q-search-box input:focus { border-color: #10b981; }
-
-        .q-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; direction: rtl; /* الأسماء في الـ json بالعربي دايما */ }
-        
-        .q-card { background-color: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .q-card:hover { transform: translateY(-5px); border-color: #10b981; background-color: rgba(16, 185, 129, 0.05); }
-        .q-card .icon-wrapper { width: 60px; height: 60px; background-color: rgba(16, 185, 129, 0.1); color: #10b981; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
-        .q-card h3 { font-size: 1.1rem; font-weight: 700; color: white; margin: 0; }
-        .q-card p { font-size: 0.85rem; color: var(--text-muted); margin: 0; }
-
-        .q-surah-card { flex-direction: row; text-align: right; padding: 15px 20px; justify-content: space-between; }
-        .q-surah-info { display: flex; align-items: center; gap: 15px; }
-        .q-surah-num { background-color: rgba(0,0,0,0.5); color: #10b981; width: 35px; height: 35px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: bold; font-size: 0.9rem; }
-        .q-action-icon { color: var(--text-muted); transition: all 0.3s ease; font-size: 1.2rem; }
-        .q-surah-card:hover .q-action-icon { color: #10b981; }
-        .q-surah-card.playing { border-color: #10b981; background-color: rgba(16, 185, 129, 0.1); }
-        .q-surah-card.playing .q-action-icon { color: #10b981; }
-
-        .q-header-flex { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; direction: rtl;}
-        .q-back-btn { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 20px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-family: inherit; font-weight: 600; transition: 0.3s;}
-        .q-back-btn:hover { background: #10b981; }
-
-        .btn-dl-all { background-color: rgba(16, 185, 129, 0.1); color: #10b981; border: 2px dashed #10b981; width: 100%; padding: 15px; border-radius: 15px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 25px; font-family: inherit;}
-        .btn-dl-all:hover { background-color: #10b981; color: white; }
-
-        .q-loader { border: 4px solid rgba(255,255,255,0.1); border-top: 4px solid #10b981; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 50px auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* مشغل الصوت الخاص بالقرآن (يظهر عند التشغيل) */
-        .quran-player-bar { position: fixed; bottom: -100px; left: 0; width: 100%; background-color: #0b1120; border-top: 1px solid rgba(255,255,255,0.1); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; z-index: 2000; box-shadow: 0 -10px 30px rgba(0,0,0,0.6); transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); direction: rtl; }
-        .quran-player-bar.active { bottom: 0; }
-        .qp-info { width: 25%; text-align: right; }
-        .qp-info h4 { color: #10b981; font-size: 1rem; margin-bottom: 2px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .qp-info p { color: var(--text-muted); font-size: 0.85rem; margin:0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
-        .qp-controls { width: 50%; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .qp-btns { display: flex; align-items: center; gap: 20px; direction: ltr;}
-        .qp-btn { background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer; transition: 0.3s; }
-        .qp-btn:hover { color: #10b981; }
-        .qp-play-btn { width: 45px; height: 45px; background: #10b981; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.2rem; color: #0b1120; }
-        .qp-play-btn:hover { transform: scale(1.05); background: #059669; }
-        .qp-progress { display: flex; align-items: center; gap: 10px; width: 100%; font-size: 0.8rem; color: var(--text-muted); direction: ltr;}
-        .qp-progress input { flex-grow: 1; accent-color: #10b981; cursor: pointer; height: 4px;}
-        .qp-volume { width: 25%; display: flex; justify-content: flex-end; align-items: center; gap: 10px; color: var(--text-muted); direction: ltr;}
-        .qp-volume input { width: 80px; accent-color: #10b981; cursor: pointer; height: 4px;}
-        .qp-close { position: absolute; top: -15px; right: 20px; background: #ef4444; color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; border: none; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(0,0,0,0.3);}
-
         footer { text-align: center; padding: 30px; background-color: var(--section-bg); color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.95rem; margin-bottom: 0; transition: margin-bottom 0.4s;}
 
         @media (max-width: 768px) {
             nav { padding: 15px 5%; flex-direction: column; gap: 15px; }
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 10px;}
-            .q-tabs { flex-direction: column; border-radius: 15px; }
-            .q-tab-btn { justify-content: center; border-radius: 10px;}
-            .quran-player-bar { flex-direction: column; gap: 15px; padding: 15px; }
-            .qp-info, .qp-controls { width: 100%; text-align: center; }
-            .qp-volume { display: none; }
         }
     </style>
 </head>
@@ -204,7 +135,7 @@
             <a href="#home" data-i18n="nav_home">Home</a>
             <a href="#about" data-i18n="nav_about">Who We Are</a>
             <a href="#pomodoro" data-i18n="nav_pomodoro">Pomodoro</a>
-            <a href="#quran" data-i18n="nav_quran">Quran</a>
+            <a href="quran.html" data-i18n="nav_quran">Quran</a>
             <a href="#rules" data-i18n="nav_rules">Rules</a>
             <a href="#games" data-i18n="nav_games">Games</a>
             <a href="#downloads" data-i18n="nav_downloads">Apps</a>
@@ -270,89 +201,6 @@
         </div>
     </section>
 
-    <section id="quran">
-        <div class="card-container quran-wrapper">
-            <h2 data-i18n="quran_title" style="color: #10b981;">The Quran</h2>
-            <p data-i18n="quran_desc" style="margin-bottom: 10px;">Listen or download the Quran in high quality.</p>
-            
-            <div class="quran-tabs">
-                <button class="q-tab-btn active" id="tab-listen" onclick="switchQTab('listen')"><i class="fas fa-headphones"></i> <span data-i18n="q_tab_listen">Listen</span></button>
-                <button class="q-tab-btn" id="tab-download" onclick="switchQTab('download')"><i class="fas fa-cloud-download-alt"></i> <span data-i18n="q_tab_dl">Download</span></button>
-            </div>
-
-            <div class="q-search-box" id="qReciterSearchBox">
-                <i class="fas fa-search"></i>
-                <input type="text" id="qReciterSearch" placeholder="Search for a reciter..." data-i18n-placeholder="q_search_reciter">
-            </div>
-            <div class="q-search-box hidden" id="qSurahSearchBox">
-                <i class="fas fa-search"></i>
-                <input type="text" id="qSurahSearch" placeholder="Search for a surah..." data-i18n-placeholder="q_search_surah">
-            </div>
-
-            <div id="q-listen-container">
-                <div id="q-reciters-view">
-                    <div id="q-loading" class="q-loader"></div>
-                    <div id="q-reciters-grid" class="q-grid"></div>
-                </div>
-
-                <div id="q-surahs-view" class="hidden">
-                    <div class="q-header-flex">
-                        <button class="q-back-btn" onclick="goBack('listen')">
-                            <i class="fas fa-arrow-right"></i> <span data-i18n="q_back">Back</span>
-                        </button>
-                        <h3 id="q-current-reciter" style="color: white; margin: 0;"></h3>
-                    </div>
-                    <div id="q-surahs-grid" class="q-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));"></div>
-                </div>
-            </div>
-
-            <div id="q-download-container" class="hidden">
-                <div id="q-dl-reciters-view">
-                    <div id="q-dl-reciters-grid" class="q-grid"></div>
-                </div>
-
-                <div id="q-dl-surahs-view" class="hidden">
-                    <div class="q-header-flex">
-                        <button class="q-back-btn" onclick="goBack('download')">
-                            <i class="fas fa-arrow-right"></i> <span data-i18n="q_back">Back</span>
-                        </button>
-                        <h3 id="q-dl-current-reciter" style="color: white; margin: 0;"></h3>
-                    </div>
-                    
-                    <button class="btn-dl-all" onclick="downloadFullQuran()">
-                        <i class="fas fa-file-archive"></i> <span id="dl-btn-text" data-i18n="q_dl_all">Download Full Quran</span>
-                    </button>
-
-                    <div id="q-dl-surahs-grid" class="q-grid" style="grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="quran-player-bar" id="qPlayerBar">
-        <button class="qp-close" onclick="closeQuranPlayer()"><i class="fas fa-times"></i></button>
-        <div class="qp-info">
-            <h4 id="qp-surah">Surah Name</h4>
-            <p id="qp-reciter">Reciter Name</p>
-        </div>
-        <div class="qp-controls">
-            <div class="qp-btns">
-                <button class="qp-btn" onclick="qPlayNext()"><i class="fas fa-step-forward"></i></button>
-                <button class="qp-btn qp-play-btn" id="qp-playBtn" onclick="qTogglePlay()"><i class="fas fa-play"></i></button>
-                <button class="qp-btn" onclick="qPlayPrev()"><i class="fas fa-step-backward"></i></button>
-            </div>
-            <div class="qp-progress">
-                <span id="qp-current-time">0:00</span>
-                <input type="range" id="qp-progress-bar" value="0" min="0" step="1">
-                <span id="qp-duration">0:00</span>
-            </div>
-        </div>
-        <div class="qp-volume">
-            <i class="fas fa-volume-up"></i>
-            <input type="range" id="qp-volume-slider" min="0" max="1" step="0.01" value="1">
-        </div>
-        <audio id="qAudio"></audio>
-    </div>
     <section id="rules">
         <div class="card-container rules-wrapper">
             <h2 data-i18n="rules_title">Server Rules</h2>
@@ -379,7 +227,7 @@
                 <div class="download-card">
                     <i class="fa-solid fa-gamepad card-icon"></i>
                     <h3 class="card-title" data-i18n="game1_title">Snake Game 🐍</h3>
-                    <p class="card-desc" data-i18n="game1_desc"> snake game...</p>
+                    <p class="card-desc" data-i18n="game1_desc">Classic snake game...</p>
                     <a href="snake.html" class="download-btn" target="_blank">
                         <i class="fa-solid fa-play"></i> 
                         <span data-i18n="btn_play">Play Now</span>
@@ -402,7 +250,7 @@
     <section id="downloads">
         <div class="card-container downloads-wrapper">
             <h2 data-i18n="downloads_title">Software Hub</h2>
-            <p data-i18n="downloads_desc" style="margin-top: 10px; color: var(--text-muted);">Download tools for our community.</p>
+            <p data-i18n="downloads_desc" style="margin-top: 10px; color: var(--text-muted);">          Download tools for our community.</p>
             <div class="downloads-grid">
                 <div class="download-card">
                     <i class="fa-solid fa-book-quran card-icon"></i>
@@ -470,7 +318,6 @@
                 about_title: "Who Are We?",
                 about_desc: "This server is just a chill place to hang out, play games, talk, laugh, and meet cool people...<br><br>Simple as that:<br>Join, vibe, and enjoy",
                 pomo_title: "Pomodoro Timer", pomo_desc: "Level up your focus. Pick a mode, hit start, and crush your goals.", pomo_work: "Deep Work", pomo_short: "Short Break", pomo_long: "Long Break", pomo_apply: "Apply", pomo_start: "Start", pomo_pause: "Pause", pomo_reset: "Reset", pomo_bg_title: "Change The Vibe",
-                quran_title: "Al Maher - Quran", quran_desc: "Listen or download the Quran in high quality.", q_tab_listen: "Listen", q_tab_dl: "Download", q_back: "Back", q_dl_all: "Download Full Quran",
                 rules_title: "Server Rules", rule_1_title: "1. Respect is Key", rule_1_desc: "No insults, belittling, bullying...", rule_2_title: "2. Keep Jokes Light", rule_2_desc: "Joking is fine, but if it bothers someone, stop it.", rule_3_title: "3. No Spamming", rule_3_desc: "Do not repeat messages...", rule_4_title: "4. No NSFW Content", rule_4_desc: "Anything inappropriate is strictly forbidden.", rule_5_title: "5. No Mocking Religion", rule_5_desc: "This is a Muslim server...", rule_6_title: "6. No Unauthorized Links", rule_6_desc: "Any link must be approved.", rule_7_title: "7. Use Channels Correctly", rule_7_desc: "Post in the right place.", rule_8_title: "8. Resolve Issues Calmly", rule_8_desc: "Do not drag fights into public.", rule_9_title: "9. Privacy is a Red Line", rule_9_desc: "Do not share personal info.", rule_10_title: "10. Admin Decisions are Final", rule_10_desc: "Violations result in bans.",
                 games_title: "Games Hub", games_desc: "Take a break and enjoy some games.", game1_title: "Snake Game 🐍", game1_desc: "Classic snake game with a twist!", btn_play: "Play Now",
                 downloads_title: "Our Apps", downloads_desc: "Download tools for our community.", prog1_title: "Al Maher", prog1_desc: "Desktop application for the Quran.", prog2_title: "Eto Temp Cleaner", prog2_desc: "Cache cleaner and PC speed-up tool.", prog3_title: "Converter Images", prog3_desc: "Easy image format converter.", btn_download: "Download",
@@ -485,17 +332,11 @@
                 about_title: "مين إحنا؟",
                 about_desc: "بص السيرفر ده معمول عشان ننبسط، نتكلم، نلعب، ونهزر من غير جو رسمي تقيل...<br><br>الموضوع بسيط:<br>ادخل، خليك على طبيعتك، واستمتع",
                 pomo_title: "بومودورو", pomo_desc: "علي تركيزك. اختار المود، ابدأ، وخلص اللي وراك.", pomo_work: "وقت الشغل", pomo_short: "بريك خفيف", pomo_long: "بريك طويل", pomo_apply: "تطبيق", pomo_start: "ابدأ", pomo_pause: "وقف", pomo_reset: "عيد من الأول", pomo_bg_title: "غير المود (الخلفية)",
-                quran_title: "الماهر - القرآن الكريم", quran_desc: "استمع أو حمل سور القرآن الكريم بجودة عالية بصوت قارئك المفضل.", q_tab_listen: "الاستماع", q_tab_dl: "قسم التحميل", q_back: "عودة للقراء", q_dl_all: "تحميل القرآن كامل",
                 rules_title: "قوانين السيرفر", rule_1_title: "1. الاحترام أساس", rule_1_desc: "مفيش شتيمة، تقليل، تنمر...", rule_2_title: "2. بلاش هزار تقيل", rule_2_desc: "الهزار حلو بس بحدود.", rule_3_title: "3. مفيش سبام", rule_3_desc: "ممنوع تكرار رسايل.", rule_4_title: "4. مفيش محتوى +18", rule_4_desc: "ممنوع منعا باتا.", rule_5_title: "5. ممنوع الاستهزاء بالدين", rule_5_desc: "ممنوع السخرية من الدين.", rule_6_title: "6. ممنوع نشر روابط", rule_6_desc: "إلا بإذن الإدارة.", rule_7_title: "7. كل روم ليها استخدام", rule_7_desc: "اكتب في المكان الصح.", rule_8_title: "8. حل مشاكلك بهدوء", rule_8_desc: "مفيش خناقات في العام.", rule_9_title: "9. الخصوصية خط أحمر", rule_9_desc: "ممنوع نشر معلومات حد.", rule_10_title: "10. الإدارة قرارها نهائي", rule_10_desc: "المخالفة تؤدي للطرد.",
                 games_title: "مركز الألعاب", games_desc: "خد بريك واستمتع بشوية ألعاب.", game1_title: "لعبة الثعبان 🐍", game1_desc: "لعبة التعبان الكلاسيكية!", btn_play: "العب دلوقتي",
                 downloads_title: "مركز التحميلات", downloads_desc: "حمل كل البرامج والأدوات اللي عملناها.", prog1_title: "الماهر", prog1_desc: "برنامج القرآن الكريم الماهر.", prog2_title: "Eto Temp Cleaner", prog2_desc: "أداة تنظيف الكاش وتسريع الجهاز.", prog3_title: "Converter Images", prog3_desc: "برنامج تحويل صيغ الصور.", btn_download: "تحميل البرنامج",
                 footer_text: "© 2026 Academic Society. كل الحقوق محفوظة ."
             }
-        };
-
-        const placeholders = {
-            en: { q_search_reciter: "Search for a reciter...", q_search_surah: "Search for a surah..." },
-            ar: { q_search_reciter: "ابحث عن قارئ...", q_search_surah: "ابحث عن سورة..." }
         };
 
         let currentLang = 'en';
@@ -510,11 +351,6 @@
                 document.querySelectorAll('[data-i18n]').forEach(el => {
                     const key = el.getAttribute('data-i18n');
                     if(translations[currentLang][key]) el.innerHTML = translations[currentLang][key];
-                });
-                
-                document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                    const key = el.getAttribute('data-i18n-placeholder');
-                    if(placeholders[currentLang][key]) el.placeholder = placeholders[currentLang][key];
                 });
 
                 document.getElementById('langText').textContent = currentLang === 'en' ? 'عربي' : 'English';
@@ -575,282 +411,6 @@
         }
         function changeBg(color) { document.getElementById('pomoCard').style.background = color; }
         updateDisplay();
-
-
-        // ================= 4. نظام القرآن الكريم (QURAN APP) =================
-        const surahNames = [
-            "الفاتحة", "البقرة", "آل عمران", "النساء", "المائدة", "الأنعام", "الأعراف", "الأنفال", "التوبة", "يونس",
-            "هود", "يوسف", "الرعد", "إبراهيم", "الحجر", "النحل", "الإسراء", "الكهف", "مريم", "طه",
-            "الأنبياء", "الحج", "المؤمنون", "النور", "الفرقان", "الشعراء", "النمل", "القصص", "العنكبوت", "الروم",
-            "لقمان", "السجدة", "الأحزاب", "سبأ", "فاطر", "يس", "الصافات", "ص", "الزمر", "غافر",
-            "فصلت", "الشورى", "الزخرف", "الدخان", "الجاثية", "الأحقاف", "محمد", "الفتح", "الحجرات", "ق",
-            "الذاريات", "الطور", "النجم", "القمر", "الرحمن", "الواقعة", "الحديد", "المجادلة", "الحشر", "الممتحنة",
-            "الصف", "الجمعة", "المنافقون", "التغابن", "الطلاق", "التحريم", "الملك", "القلم", "الحاقة", "المعارج",
-            "نوح", "الجن", "المزمل", "المدثر", "القيامة", "الإنسان", "المرسلات", "النبأ", "النازعات", "عبس",
-            "التكوير", "الانفطار", "المطففين", "الانشقاق", "البروج", "الطارق", "الأعلى", "الغاشية", "الفجر", "البلد",
-            "الشمس", "الليل", "الضحى", "الشرح", "التين", "العلق", "القدر", "البينة", "الزلزلة", "العاديات",
-            "القارعة", "التكاثر", "العصر", "الهمزة", "الفيل", "قريش", "الماعون", "الكوثر", "الكافرون", "النصر",
-            "المسد", "الإخلاص", "الفلق", "الناس"
-        ];
-
-        let qRecitersData = [];
-        let qCurrentSurahs = [];
-        let qCurrentServer = "";
-        let qCurrentReciterName = "";
-        let qPlayingIndex = -1;
-        let qMode = "listen"; // listen or download
-
-        const qAudio = document.getElementById('qAudio');
-        const qPlayBtn = document.getElementById('qp-playBtn');
-        const qProgressBar = document.getElementById('qp-progress-bar');
-        const qCurrentTimeEl = document.getElementById('qp-current-time');
-        const qDurationEl = document.getElementById('qp-duration');
-        const qPlayerBar = document.getElementById('qPlayerBar');
-        const mainFooter = document.getElementById('mainFooter');
-
-        // تبديل أقسام القرآن
-        function switchQTab(mode) {
-            qMode = mode;
-            document.getElementById('tab-listen').classList.remove('active');
-            document.getElementById('tab-download').classList.remove('active');
-            document.getElementById(`tab-${mode}`).classList.add('active');
-
-            if(mode === 'listen') {
-                document.getElementById('q-download-container').classList.add('hidden');
-                document.getElementById('q-listen-container').classList.remove('hidden');
-                goBack('listen');
-            } else {
-                document.getElementById('q-listen-container').classList.add('hidden');
-                document.getElementById('q-download-container').classList.remove('hidden');
-                goBack('download');
-            }
-        }
-
-        // جلب البيانات من الملف المجاور
-        async function fetchQuranData() {
-            try {
-                // يجب أن يكون ملف reciters.json في نفس مسار هذا الملف
-                const response = await fetch('./reciters.json'); 
-                const data = await response.json();
-                qRecitersData = data.reciters;
-                document.getElementById('q-loading').classList.add('hidden');
-                renderQReciters(qRecitersData);
-            } catch (error) {
-                console.error("Error fetching reciters:", error);
-                document.getElementById('q-loading').innerHTML = "Failed to load data. Make sure reciters.json exists.";
-                document.getElementById('q-loading').style.width = "auto";
-                document.getElementById('q-loading').style.border = "none";
-                document.getElementById('q-loading').style.animation = "none";
-            }
-        }
-
-        function renderQReciters(reciters) {
-            const listenGrid = document.getElementById('q-reciters-grid');
-            const dlGrid = document.getElementById('q-dl-reciters-grid');
-            listenGrid.innerHTML = ''; dlGrid.innerHTML = '';
-
-            reciters.forEach(r => {
-                if(r.moshaf && r.moshaf.length > 0) {
-                    const moshaf = r.moshaf[0];
-                    
-                    // كارت الاستماع
-                    const lCard = document.createElement('div');
-                    lCard.className = 'q-card';
-                    lCard.innerHTML = `<div class="icon-wrapper"><i class="fas fa-microphone-alt"></i></div><h3>${r.name}</h3><p>${moshaf.name}</p>`;
-                    lCard.onclick = () => openQReciter(r.name, moshaf, 'listen');
-                    listenGrid.appendChild(lCard);
-
-                    // كارت التحميل
-                    const dCard = document.createElement('div');
-                    dCard.className = 'q-card';
-                    dCard.innerHTML = `<div class="icon-wrapper" style="background-color: rgba(59, 130, 246, 0.1); color: #3b82f6;"><i class="fas fa-file-download"></i></div><h3>${r.name}</h3><p>${moshaf.name}</p>`;
-                    dCard.onclick = () => openQReciter(r.name, moshaf, 'download');
-                    dlGrid.appendChild(dCard);
-                }
-            });
-        }
-
-        function openQReciter(name, moshaf, mode) {
-            qCurrentReciterName = name;
-            qCurrentServer = moshaf.server;
-            const surahsNums = moshaf.surah_list.split(',').map(n => parseInt(n));
-            qCurrentSurahs = surahsNums.map(n => ({ id: n, name: surahNames[n - 1] }));
-
-            document.getElementById('qReciterSearchBox').classList.add('hidden');
-            document.getElementById('qSurahSearchBox').classList.remove('hidden');
-            document.getElementById('qSurahSearch').value = '';
-
-            if (mode === 'listen') {
-                document.getElementById('q-reciters-view').classList.add('hidden');
-                document.getElementById('q-surahs-view').classList.remove('hidden');
-                document.getElementById('q-current-reciter').innerText = name;
-                renderQSurahs(qCurrentSurahs, 'listen');
-            } else {
-                document.getElementById('q-dl-reciters-view').classList.add('hidden');
-                document.getElementById('q-dl-surahs-view').classList.remove('hidden');
-                document.getElementById('q-dl-current-reciter').innerText = name;
-                renderQSurahs(qCurrentSurahs, 'download');
-            }
-        }
-
-        function renderQSurahs(surahs, mode) {
-            const gridId = mode === 'listen' ? 'q-surahs-grid' : 'q-dl-surahs-grid';
-            const grid = document.getElementById(gridId);
-            grid.innerHTML = '';
-
-            surahs.forEach((s, idx) => {
-                const num = String(s.id).padStart(3, '0');
-                const url = `${qCurrentServer}${num}.mp3`;
-                const card = document.createElement('div');
-                card.className = 'q-card q-surah-card';
-                
-                if (mode === 'listen') {
-                    if(qPlayingIndex === idx && document.getElementById('qp-reciter').innerText === qCurrentReciterName) {
-                        card.classList.add('playing');
-                    }
-                    card.innerHTML = `<div class="q-surah-info"><div class="q-surah-num">${s.id}</div><h3>سورة ${s.name}</h3></div><i class="fas fa-play q-action-icon"></i>`;
-                    card.onclick = () => playQuranSurah(idx);
-                } else {
-                    card.innerHTML = `<a href="${url}" target="_blank" download="Surah_${s.name}.mp3" style="text-decoration:none; color:inherit; display:flex; align-items:center; width:100%; justify-content:space-between;">
-                        <div class="q-surah-info"><div class="q-surah-num" style="color:#3b82f6;">${s.id}</div><h3>سورة ${s.name}</h3></div>
-                        <i class="fas fa-download q-action-icon" style="color:#3b82f6;"></i>
-                    </a>`;
-                }
-                grid.appendChild(card);
-            });
-        }
-
-        function goBack(mode) {
-            document.getElementById('qSurahSearchBox').classList.add('hidden');
-            document.getElementById('qReciterSearchBox').classList.remove('hidden');
-            document.getElementById('qReciterSearch').value = '';
-            renderQReciters(qRecitersData); // reset filter
-
-            if(mode === 'listen') {
-                document.getElementById('q-surahs-view').classList.add('hidden');
-                document.getElementById('q-reciters-view').classList.remove('hidden');
-            } else {
-                document.getElementById('q-dl-surahs-view').classList.add('hidden');
-                document.getElementById('q-dl-reciters-view').classList.remove('hidden');
-            }
-        }
-
-        // تشغيل الصوت
-        function playQuranSurah(idx) {
-            if (idx < 0 || idx >= qCurrentSurahs.length) return;
-            qPlayingIndex = idx;
-            const s = qCurrentSurahs[idx];
-            const url = `${qCurrentServer}${String(s.id).padStart(3, '0')}.mp3`;
-            
-            qAudio.src = url;
-            qAudio.play();
-
-            document.getElementById('qp-surah').innerText = `سورة ${s.name}`;
-            document.getElementById('qp-reciter').innerText = qCurrentReciterName;
-            qPlayBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            
-            // إظهار المشغل السفلي
-            qPlayerBar.classList.add('active');
-            mainFooter.style.marginBottom = "100px";
-
-            if(qMode === 'listen') renderQSurahs(qCurrentSurahs, 'listen');
-        }
-
-        function qTogglePlay() {
-            if (!qAudio.src) return;
-            if (qAudio.paused) { qAudio.play(); qPlayBtn.innerHTML = '<i class="fas fa-pause"></i>'; } 
-            else { qAudio.pause(); qPlayBtn.innerHTML = '<i class="fas fa-play"></i>'; }
-        }
-
-        function qPlayNext() { playQuranSurah(qPlayingIndex + 1); }
-        function qPlayPrev() { playQuranSurah(qPlayingIndex - 1); }
-        function closeQuranPlayer() {
-            qAudio.pause();
-            qPlayerBar.classList.remove('active');
-            mainFooter.style.marginBottom = "0";
-            qPlayingIndex = -1;
-            if(qMode === 'listen') renderQSurahs(qCurrentSurahs, 'listen'); // لإزالة التحديد
-        }
-
-        // تحديث شريط التقدم
-        qAudio.addEventListener('timeupdate', () => {
-            if (!isNaN(qAudio.duration)) {
-                qProgressBar.max = qAudio.duration;
-                qProgressBar.value = qAudio.currentTime;
-                qCurrentTimeEl.innerText = formatQTime(qAudio.currentTime);
-                qDurationEl.innerText = formatQTime(qAudio.duration);
-            }
-        });
-        qProgressBar.addEventListener('input', () => { qAudio.currentTime = qProgressBar.value; });
-        qAudio.addEventListener('ended', qPlayNext);
-        document.getElementById('qp-volume-slider').addEventListener('input', (e) => { qAudio.volume = e.target.value; });
-
-        function formatQTime(secs) {
-            const m = Math.floor(secs / 60), s = Math.floor(secs % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
-        }
-
-        // بحث القراء والسور
-        document.getElementById('qReciterSearch').addEventListener('input', (e) => {
-            const v = e.target.value.trim();
-            renderQReciters(qRecitersData.filter(r => r.name.includes(v)));
-        });
-        document.getElementById('qSurahSearch').addEventListener('input', (e) => {
-            const v = e.target.value.trim();
-            renderQSurahs(qCurrentSurahs.filter(s => s.name.includes(v)), qMode);
-        });
-
-        // تحميل ملف ZIP (يستلزم مكتبة JSZip و FileSaver التي أضفناها في الأعلى)
-        async function downloadFullQuran() {
-            const msg = currentLang === 'ar' ? 
-                `هيتم تجميع القرآن كامل بصوت ${qCurrentReciterName} في ملف ZIP.\nتنبيه: العملية دي هتاخد وقت وممكن تكون تقيلة على الجهاز.. موافق؟` :
-                `Full Quran by ${qCurrentReciterName} will be zipped.\nWarning: This takes time and memory. Proceed?`;
-                
-            if (!confirm(msg)) return;
-
-            const btnText = document.getElementById('dl-btn-text');
-            const originalHTML = btnText.innerHTML;
-            const btn = document.querySelector('.btn-dl-all');
-            
-            btn.disabled = true; btn.style.opacity = '0.6'; btn.style.cursor = 'wait';
-            
-            try {
-                const zip = new JSZip();
-                const folderName = `Quran_${qCurrentReciterName}`;
-                const folder = zip.folder(folderName);
-
-                for (let i = 0; i < qCurrentSurahs.length; i++) {
-                    const s = qCurrentSurahs[i];
-                    const num = String(s.id).padStart(3, '0');
-                    btnText.innerHTML = currentLang === 'ar' ? `جاري تحميل سورة ${s.name} (${i+1}/${qCurrentSurahs.length})..` : `Downloading Surah ${s.name} (${i+1}/${qCurrentSurahs.length})..`;
-                    
-                    const res = await fetch(`${qCurrentServer}${num}.mp3`);
-                    if (!res.ok) throw new Error("Network error");
-                    folder.file(`${num}_${s.name}.mp3`, await res.blob());
-                }
-
-                btnText.innerHTML = currentLang === 'ar' ? `جاري ضغط الملفات.. برجاء الانتظار` : `Zipping files.. Please wait`;
-                
-                const content = await zip.generateAsync({ type: "blob", compression: "STORE" }, (meta) => {
-                    if(meta.percent) btnText.innerHTML = (currentLang === 'ar' ? `جاري الضغط: ` : `Zipping: `) + meta.percent.toFixed(0) + '%';
-                });
-
-                saveAs(content, `${folderName}.zip`);
-                btnText.innerHTML = currentLang === 'ar' ? "تم التحميل بنجاح!" : "Downloaded Successfully!";
-            } catch (error) {
-                console.error(error);
-                alert(currentLang === 'ar' ? "حدث خطأ أثناء التحميل." : "Error downloading files.");
-                btnText.innerHTML = originalHTML;
-            } finally {
-                setTimeout(() => {
-                    btnText.innerHTML = originalHTML;
-                    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
-                }, 4000);
-            }
-        }
-
-        // تشغيل جلب بيانات القرآن عند تحميل الصفحة
-        fetchQuranData();
 
     </script>
 </body>
