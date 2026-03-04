@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High School Calculator v1.0 - Equations Edition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-page: #12141a;
+            --calc-body: #20242b;
+            --calc-faceplate: #282d36;
+            --lcd-bg: #8ba38d;
+            --lcd-text: #1a2118;
+            --lcd-shadow: rgba(0, 0, 0, 0.4);
+            
+            --btn-num-bg: #dcdde1;
+            --btn-num-text: #2f3640;
+            --btn-num-shadow: #b2b4b8;
+            
+            --btn-op-bg: #353b45;
+            --btn-op-text: #f5f6fa;
+            --btn-op-shadow: #1e2229;
+            
+            --btn-func-bg: #2d3436;
+            --btn-func-text: #dfe6e9;
+            
+            --btn-del-bg: #e15f41;
+            --btn-del-shadow: #c44536;
+            
+            --btn-ac-bg: #c23616;
+            --btn-ac-shadow: #8c2a11;
+            
+            --btn-eq-bg: #44bd32;
+            --btn-eq-shadow: #2f3640;
+
+            --panel-bg: rgba(32, 36, 43, 0.4);
+            --panel-border: rgba(255, 255, 255, 0.08);
+        }
+
+        body { 
+            margin: 0; display: flex; justify-content: center; align-items: flex-start; 
+            min-height: 100vh; background: linear-gradient(135deg, var(--bg-page), #1a1c23); 
+            font-family: 'Inter', sans-serif; padding: 40px 20px; color: #fff;
+        }
+
+        /* ستايل زرار الرئيسية الجديد */
+        .home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 18px;
+            background: var(--calc-faceplate);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--panel-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+        }
+
+        .home-btn:hover {
+            background: var(--btn-op-bg);
+            border-color: var(--btn-eq-bg);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(68, 189, 50, 0.3);
+        }
+
+        .home-btn i {
+            color: var(--btn-eq-bg);
+        }
+        
+        .app-container { display: flex; gap: 30px; width: 100%; max-width: 1250px; justify-content: center;}
+
+        .side-panel { 
+            background: var(--panel-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--panel-border); border-radius: 15px; padding: 20px; 
+            width: 260px; display: flex; flex-direction: column; gap: 10px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6); max-height: 90vh; overflow-y: auto;
+        }
+        
+        .side-panel::-webkit-scrollbar { width: 6px; }
+        .side-panel::-webkit-scrollbar-track { background: transparent; }
+        .side-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+        .side-panel::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.4); }
+
+        .panel-title { text-align: center; font-weight: 600; font-size: 16px; margin-bottom: 5px; color: #a4b0be; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
+        .panel-subtitle { font-size: 12px; color: #7f8fa6; margin-top: 10px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;}
+        
+        .var-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px;}
+        .var-btn { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.1); padding: 10px; border-radius: 6px; cursor: pointer; transition: 0.2s; font-family: 'Inter', sans-serif; font-weight: 600; text-align: center;}
+        .var-btn:hover { background: rgba(255,255,255,0.15); transform: translateY(-2px); box-shadow: 0 5px 10px rgba(0,0,0,0.3);}
+        .var-btn.const { grid-column: span 2; display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; }
+        .var-btn.const span.val { color: #7f8fa6; font-size: 11px; font-family: monospace; }
+
+        .history-list { font-family: 'Share Tech Mono', monospace; font-size: 14px; color: #a4b0be; display: flex; flex-direction: column; gap: 10px;}
+        .history-item { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; border-left: 3px solid #44bd32; word-wrap: break-word;}
+
+        .calculator { 
+            background: var(--calc-body); padding: 20px; border-radius: 20px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7), inset 0 2px 2px rgba(255,255,255,0.1); 
+            width: 420px; border: 1px solid #111; flex-shrink: 0; position: relative;
+        }
+        
+        .faceplate {
+            background: var(--calc-faceplate); padding: 20px 15px; border-radius: 12px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.4); border: 1px solid #1a1c23;
+        }
+
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding: 0 5px; }
+        .brand { font-size: 16px; font-weight: 600; font-style: italic; color: #dcdde1; letter-spacing: 1.5px; }
+        .model { font-size: 12px; color: #7f8fa6; font-family: monospace; }
+        
+        .screen-container { background: #111; padding: 8px; border-radius: 8px; margin-bottom: 25px; box-shadow: inset 0 3px 10px rgba(0,0,0,0.8); }
+
+        .screen { 
+            background-color: var(--lcd-bg); background-image: radial-gradient(rgba(0,0,0,0.15) 1px, transparent 1px);
+            background-size: 3px 3px; padding: 10px 15px; border-radius: 4px; 
+            box-shadow: inset 0 0 15px var(--lcd-shadow); display: flex; flex-direction: column; 
+            align-items: flex-end; font-family: 'Share Tech Mono', monospace; min-height: 110px; position: relative;
+        }
+        
+        .status-bar { position: absolute; top: 5px; left: 10px; font-size: 12px; display: flex; gap: 8px; font-weight: bold; color: var(--lcd-text); opacity: 0.8;}
+        .status-indicator { display: none; }
+        .status-indicator.active { display: inline; }
+
+        .history-top { width: 100%; min-height: 20px; font-size: 14px; color: var(--lcd-text); opacity: 0.6; text-align: left; margin-top: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+        
+        .equation, .result { width: 100%; overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none; }
+        .equation::-webkit-scrollbar, .result::-webkit-scrollbar { display: none; }
+
+        .equation { font-size: 26px; color: var(--lcd-text); margin-bottom: 2px; text-align: left; min-height: 30px; letter-spacing: 1px; text-shadow: 1px 1px 0px rgba(0,0,0,0.1);}
+        .result { font-size: 36px; color: var(--lcd-text); text-align: right; font-weight: bold; min-height: 40px; letter-spacing: 1px;}
+
+        .control-cluster { display: flex; justify-content: space-around; align-items: center; margin-bottom: 25px; padding: 0 15px; }
+
+        .top-btn-wrapper { display: flex; flex-direction: column; align-items: center; gap: 5px;}
+        .top-btn-label { font-size: 11px; font-weight: 600; color: #7f8fa6; text-transform: uppercase;}
+
+        .btn-top {
+            background: var(--btn-op-bg); color: var(--btn-op-text); border: none; border-radius: 20px;
+            padding: 8px 20px; font-size: 13px; font-weight: 600; box-shadow: 0 4px var(--btn-op-shadow);
+            cursor: pointer; transition: all 0.1s;
+        }
+        .btn-top:active { transform: translateY(4px); box-shadow: 0 0 var(--btn-op-shadow); }
+
+        .d-pad {
+            position: relative; width: 90px; height: 90px; background: linear-gradient(135deg, #353b45, #1e2229);
+            border-radius: 50%; box-shadow: 0 8px 15px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.1); border: 2px solid #111;
+        }
+        .d-pad button {
+            position: absolute; background: transparent; border: none; color: #7f8fa6; font-size: 14px;
+            cursor: pointer; transition: color 0.2s; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center;
+        }
+        .d-pad button:hover { color: #fff; }
+        .d-pad button:active { transform: scale(0.9); }
+        .d-up { top: 2px; left: 50%; transform: translateX(-50%); }
+        .d-down { bottom: 2px; left: 50%; transform: translateX(-50%); }
+        .d-left { left: 2px; top: 50%; transform: translateY(-50%); }
+        .d-right { right: 2px; top: 50%; transform: translateY(-50%); }
+        .d-center {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 35px; height: 35px; background: #20242b; border-radius: 50%;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); border: 1px solid #111;
+        }
+
+        .scientific-grid, .numpad-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 20px;}
+
+        button.calc-btn { width: 100%; padding: 12px 0; font-size: 15px; font-family: 'Inter', sans-serif; font-weight: 600; border: none; border-radius: 6px; cursor: pointer; transition: all 0.1s ease; }
+
+        .btn-func { background: var(--btn-func-bg); color: var(--btn-func-text); box-shadow: 0 4px #1a1c23; border: 1px solid #111;}
+        .btn-func:active { transform: translateY(4px); box-shadow: 0 0 #1a1c23; }
+
+        .btn-num { background: var(--btn-num-bg); color: var(--btn-num-text); box-shadow: 0 4px var(--btn-num-shadow); border: 1px solid #a4b0be; font-size: 20px;}
+        .btn-num:active { transform: translateY(4px); box-shadow: 0 0 var(--btn-num-shadow); }
+
+        .btn-op { background: var(--btn-op-bg); color: var(--btn-op-text); box-shadow: 0 4px var(--btn-op-shadow); border: 1px solid #111; font-size: 18px;}
+        .btn-op:active { transform: translateY(4px); box-shadow: 0 0 var(--btn-op-shadow); }
+
+        .btn-del { background: var(--btn-del-bg); color: #fff; box-shadow: 0 4px var(--btn-del-shadow); border: 1px solid #8c2a11;}
+        .btn-del:active { transform: translateY(4px); box-shadow: 0 0 var(--btn-del-shadow); }
+
+        .btn-ac { background: var(--btn-ac-bg); color: #fff; box-shadow: 0 4px var(--btn-ac-shadow); border: 1px solid #5e1c0b;}
+        .btn-ac:active { transform: translateY(4px); box-shadow: 0 0 var(--btn-ac-shadow); }
+
+        .btn-eq { background: var(--btn-eq-bg); color: #fff; border: 1px solid #2f3640; font-size: 20px;}
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 5px; font-size: 16px; border: 1px solid var(--lcd-text);}
+        th, td { border: 1px solid var(--lcd-text); padding: 2px 4px; text-align: center; }
+        th { background: rgba(0,0,0,0.1); border-bottom: 2px solid var(--lcd-text);}
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="home-btn">
+    <i class="fas fa-home"></i> الرئيسية
+</a>
+
+<div class="app-container">
+    <div class="side-panel">
+        <div class="panel-title">Variables & Solvers</div>
+        
+        <div class="panel-subtitle" style="margin-top: 0;">Equation Solvers</div>
+        <button class="var-btn const" onclick="startEqn('2var')" style="color:#4cd137; border-color: rgba(76, 209, 55, 0.3);">
+            <span>Linear (2-Var)</span> <span class="val">aX+bY=c</span>
+        </button>
+        <button class="var-btn const" onclick="startEqn('quad')" style="color:#4cd137; border-color: rgba(76, 209, 55, 0.3);">
+            <span>Quadratic</span> <span class="val">aX²+bX+c=0</span>
+        </button>
+
+        <div class="panel-subtitle">Variables Bank</div>
+        <div class="var-grid">
+            <button class="var-btn" onclick="processInput('A')">A</button>
+            <button class="var-btn" onclick="processInput('B')">B</button>
+            <button class="var-btn" onclick="processInput('C')">C</button>
+            <button class="var-btn" onclick="processInput('D')">D</button>
+            <button class="var-btn" onclick="processInput('X')">X</button>
+            <button class="var-btn" onclick="processInput('Y')">Y</button>
+            <button class="var-btn" onclick="processInput('M')" style="grid-column: span 2;">M</button>
+        </div>
+        
+        <div class="panel-subtitle">Physics Constants</div>
+        <button class="var-btn const" onclick="processInput('pi')" style="color:#e1b12c;"><span>π (Pi)</span> <span class="val">3.14159...</span></button>
+        <button class="var-btn const" onclick="processInput('e')" style="color:#e1b12c;"><span>e (Euler)</span> <span class="val">2.71828...</span></button>
+        <button class="var-btn const" onclick="processInput('i')" style="color:#9c88ff;"><span>i (Complex)</span> <span class="val">√-1</span></button>
+    </div>
+
+    <div class="calculator">
+        <div class="faceplate">
+            <div class="header">
+                <div class="brand">CASIO <span style="font-weight: 400; font-size: 14px;">صل ع النبي</span></div>
+                <div class="model">fx-001</div>
+            </div>
+            
+            <div class="screen-container">
+                <div class="screen" id="screen">
+                    <div class="status-bar">
+                        <span id="ind-mode" class="status-indicator active">COMP</span>
+                    </div>
+                    <div class="history-top" id="history"></div>
+                    <div class="equation" id="equation">0</div>
+                    <div class="result" id="result"></div>
+                </div>
+            </div>
+
+            <div class="control-cluster">
+                <div class="top-btn-wrapper">
+                    <span class="top-btn-label">MODE / SETUP</span>
+                    <button class="btn-top" onclick="openModeMenu()">MODE</button>
+                </div>
+
+                <div class="d-pad">
+                    <button class="d-up">▲</button>
+                    <button class="d-left">◀</button>
+                    <button class="d-right">▶</button>
+                    <button class="d-down">▼</button>
+                    <div class="d-center"></div>
+                </div>
+
+                <div class="top-btn-wrapper">
+                    <span class="top-btn-label" style="color:#44bd32;">ON</span>
+                    <button class="btn-top" onclick="powerOnAC()">ON</button>
+                </div>
+            </div>
+
+            <div class="scientific-grid">
+                <button class="calc-btn btn-func" onclick="processInput('/')">a/b</button>
+                <button class="calc-btn btn-func" onclick="processInput('sqrt(')">√■</button>
+                <button class="calc-btn btn-func" onclick="processInput('^2')">x²</button>
+                <button class="calc-btn btn-func" onclick="processInput('^(')">x^■</button>
+                <button class="calc-btn btn-func" onclick="processInput('log(')">log</button>
+
+                <button class="calc-btn btn-func" onclick="processInput('ln(')">ln</button>
+                <button class="calc-btn btn-func" onclick="processInput('sin(')">sin</button>
+                <button class="calc-btn btn-func" onclick="processInput('cos(')">cos</button>
+                <button class="calc-btn btn-func" onclick="processInput('tan(')">tan</button>
+                <button class="calc-btn btn-func" onclick="processInput('^-1')">x⁻¹</button>
+
+                <button class="calc-btn btn-func" onclick="processInput('csc(')">csc</button>
+                <button class="calc-btn btn-func" onclick="processInput('sec(')">sec</button>
+                <button class="calc-btn btn-func" onclick="processInput('cot(')">cot</button>
+                <button class="calc-btn btn-func" onclick="processInput('abs(')">abs</button>
+                <button class="calc-btn btn-func" onclick="processInput(' mod ')">mod</button>
+
+                <button class="calc-btn btn-func" onclick="processInput('-')">(-)</button>
+                <button class="calc-btn btn-func" onclick="processInput('(')">(</button>
+                <button class="calc-btn btn-func" onclick="processInput(')')">)</button>
+                <button class="calc-btn btn-func" onclick="toggleSD()">S⇔D</button>
+                <button class="calc-btn btn-func" onclick="processInput('i')">ENG</button>
+            </div>
+
+            <div class="numpad-grid">
+                <button class="calc-btn btn-num" onclick="processInput('7')">7</button>
+                <button class="calc-btn btn-num" onclick="processInput('8')">8</button>
+                <button class="calc-btn btn-num" onclick="processInput('9')">9</button>
+                <button class="calc-btn btn-del" onclick="deleteLast()">DEL</button>
+                <button class="calc-btn btn-ac" onclick="clearAll()">AC</button>
+
+                <button class="calc-btn btn-num" onclick="processInput('4')">4</button>
+                <button class="calc-btn btn-num" onclick="processInput('5')">5</button>
+                <button class="calc-btn btn-num" onclick="processInput('6')">6</button>
+                <button class="calc-btn btn-op" onclick="processInput('*')">×</button>
+                <button class="calc-btn btn-op" onclick="processInput('/')">÷</button>
+
+                <button class="calc-btn btn-num" onclick="processInput('1')">1</button>
+                <button class="calc-btn btn-num" onclick="processInput('2')">2</button>
+                <button class="calc-btn btn-num" onclick="processInput('3')">3</button>
+                <button class="calc-btn btn-op" onclick="processInput('+')">+</button>
+                <button class="calc-btn btn-op" onclick="processInput('-')">-</button>
+
+                <button class="calc-btn btn-num" onclick="processInput('0')">0</button>
+                <button class="calc-btn btn-num" onclick="processInput('.')">.</button>
+                <button class="calc-btn btn-op" style="font-size:14px;" onclick="processInput('*10^(')">×10ˣ</button>
+                <button class="calc-btn btn-op" onclick="processInput('ans')">Ans</button>
+                <button class="calc-btn btn-eq btn-op" onclick="handleEquals()">=</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="side-panel">
+        <div class="panel-title">Scroll History</div>
+        <div class="history-list" id="side-history">
+        </div>
+    </div>
+</div>
+
+<script>
+    const eqDisplay = document.getElementById('equation');
+    const resDisplay = document.getElementById('result');
+    const historyDisplay = document.getElementById('history');
+    const sideHistory = document.getElementById('side-history');
+    const indMode = document.getElementById('ind-mode');
+    
+    let currentExpression = '';
+    let currentResultValue = null;
+    let lastAnswer = 0;
+    let isCalculated = false;
+    let isFractionDisplay = false;
+    
+    let currentMode = 'COMP'; 
+    let tempInput = '';
+    let eqnVars = { a1:0, b1:0, c1:0, a2:0, b2:0, c2:0, a:0, b:0, c:0 };
+    let tableVars = { func:'', start:1, end:5, step:1 };
+    let mathScope = { A:0, B:0, C:0, D:0, X:0, Y:0, M:0, G: 6.6743e-11, c: 299792458, h: 6.62607015e-34, phi: 1.6180339887 };
+
+    // FIX FOR TRIG FUNCTIONS: Ensures they work with degrees
+    const origSin = math.sin, origCos = math.cos, origTan = math.tan;
+    math.import({
+        sin: function(x) { return origSin(typeof x === 'number' ? math.unit(x, 'deg') : x); },
+        cos: function(x) { return origCos(typeof x === 'number' ? math.unit(x, 'deg') : x); },
+        tan: function(x) { return origTan(typeof x === 'number' ? math.unit(x, 'deg') : x); },
+        csc: function(x) { return 1 / origSin(typeof x === 'number' ? math.unit(x, 'deg') : x); },
+        sec: function(x) { return 1 / origCos(typeof x === 'number' ? math.unit(x, 'deg') : x); },
+        cot: function(x) { return 1 / origTan(typeof x === 'number' ? math.unit(x, 'deg') : x); }
+    }, { override: true });
+
+    function powerOnAC() {
+        currentMode = 'COMP'; indMode.innerText = 'COMP'; clearAll();
+    }
+
+    function clearAll() {
+        currentExpression = ''; tempInput = ''; currentResultValue = null; isCalculated = false;
+        if (currentMode !== 'COMP' && currentMode !== 'CMPLX') {
+            currentMode = 'COMP'; indMode.innerText = 'COMP';
+        }
+        historyDisplay.innerHTML = ''; eqDisplay.innerHTML = '0'; resDisplay.innerHTML = '';
+    }
+
+    function deleteLast() {
+        if (isCalculated) { clearAll(); return; }
+        if (['COMP', 'CMPLX', 'TABLE_F', 'BASE_N'].includes(currentMode)) {
+            currentExpression = currentExpression.toString().slice(0, -1) || '0';
+            updateScreen();
+        } else if (currentMode.includes('_')) {
+            tempInput = tempInput.toString().slice(0, -1);
+            resDisplay.innerText = tempInput || '0'; 
+        }
+    }
+
+    function startEqn(type) {
+        if (type === '2var') {
+            currentMode = 'EQN_2VAR_A1'; indMode.innerText = 'EQN'; tempInput=''; renderScreenText('a1?', '0');
+        } else if (type === 'quad') {
+            currentMode = 'EQN_QUAD_A'; indMode.innerText = 'EQN'; tempInput=''; renderScreenText('a?', '0');
+        }
+    }
+
+    function processInput(val) {
+        if (currentMode === 'MODE_MENU') {
+            if (val === '1') { currentMode = 'COMP'; indMode.innerText = 'COMP'; clearAll(); }
+            if (val === '2') { currentMode = 'CMPLX'; indMode.innerText = 'CPLX'; clearAll(); }
+            if (val === '4') { currentMode = 'BASE_N'; indMode.innerText = 'BASE'; currentExpression=''; renderScreenText('0', ''); }
+            if (val === '5') { currentMode = 'EQN_MENU'; renderScreenText('1: aX+bY=c<br>2: aX²+bX+c=0', ''); }
+            if (val === '7') { currentMode = 'TABLE_F'; indMode.innerText = 'TABL'; currentExpression=''; renderScreenText('f(x)=', ''); }
+            if (val === '8') { currentMode = 'UNIT_MENU'; indMode.innerText = 'UNIT'; renderScreenText('1:cm>in 2:kg>lb<br>3:C>F', ''); }
+            return;
+        }
+
+        if (currentMode === 'EQN_MENU') {
+            if (val === '1') startEqn('2var');
+            if (val === '2') startEqn('quad');
+            return;
+        }
+
+        if (currentMode === 'UNIT_MENU') {
+            if (val === '1') { currentMode = 'UNIT_CM'; tempInput=''; renderScreenText('cm?', '0'); }
+            if (val === '2') { currentMode = 'UNIT_KG'; tempInput=''; renderScreenText('kg?', '0'); }
+            if (val === '3') { currentMode = 'UNIT_C'; tempInput=''; renderScreenText('Celsius?', '0'); }
+            return;
+        }
+
+        if (currentMode.includes('_') && currentMode !== 'TABLE_F' && currentMode !== 'BASE_N') {
+            if (/[0-9\.\-]/.test(val)) {
+                if (tempInput === '0' && val !== '.') tempInput = '';
+                tempInput += val; 
+                resDisplay.innerText = tempInput; 
+            }
+            return;
+        }
+
+        if (['COMP', 'CMPLX', 'TABLE_F', 'BASE_N'].includes(currentMode)) {
+            if (val === 'ans') val = lastAnswer.toString();
+            if (isCalculated) {
+                if (['+', '-', '*', '/', '^', '^-1', '^2'].includes(val) || val === ' mod ') currentExpression = lastAnswer.toString() + val;
+                else currentExpression = val;
+                isCalculated = false; resDisplay.innerText = ''; historyDisplay.innerHTML = '';
+            } else {
+                if (currentExpression === '0' && !['+', '-', '*', '/', '.', '^2', '^-1'].includes(val) && val !== ' mod ') currentExpression = val;
+                else currentExpression += val;
+            }
+            updateScreen();
+        }
+    }
+
+    function handleEquals() {
+        if (currentMode.includes('EQN_2VAR')) processEqn2Var();
+        else if (currentMode.includes('EQN_QUAD')) processEqnQuad();
+        else if (currentMode.includes('TABLE')) processTable();
+        else if (currentMode === 'BASE_N') processBaseN();
+        else if (currentMode.includes('UNIT_')) processUnit();
+        else calculateComp();
+    }
+
+    function openModeMenu() {
+        currentMode = 'MODE_MENU';
+        renderScreenText('1:COMP 2:CMPLX 4:BASE<br>5:EQN 7:TABLE 8:UNIT', '');
+    }
+
+    function processBaseN() {
+        if (!currentExpression) return;
+        try {
+            let val = parseInt(math.evaluate(currentExpression, mathScope));
+            if(isNaN(val)) throw new Error();
+            let hx = val.toString(16).toUpperCase();
+            let bn = val.toString(2);
+            let oc = val.toString(8);
+            historyDisplay.innerHTML = `DEC = ${val}`;
+            eqDisplay.innerHTML = `HEX=${hx} | OCT=${oc}`;
+            resDisplay.innerHTML = `<span style="font-size:18px;">BIN=${bn}</span>`;
+            isCalculated = true;
+            lastAnswer = val;
+        } catch(e) {
+            resDisplay.innerText = 'Syntax Error'; isCalculated = false;
+        }
+    }
+
+    function processUnit() {
+        let val = parseFloat(tempInput) || 0;
+        let res = 0; let unit = '';
+        if(currentMode === 'UNIT_CM') { res = val * 0.393701; unit = 'inches'; }
+        if(currentMode === 'UNIT_KG') { res = val * 2.20462; unit = 'lbs'; }
+        if(currentMode === 'UNIT_C') { res = (val * 9/5) + 32; unit = '°F'; }
+        
+        renderScreenText(`${val} ->`, `<span style="font-size: 24px;">${math.round(res,4)} ${unit}</span>`);
+        currentMode = 'UNIT_MENU'; tempInput = '';
+    }
+
+    function processTable() {
+        if (currentMode === 'TABLE_F') {
+            tableVars.func = currentExpression; currentMode = 'TABLE_S'; tempInput=''; renderScreenText('Start?', '1');
+        } else if (currentMode === 'TABLE_S') {
+            tableVars.start = parseFloat(tempInput||1); currentMode = 'TABLE_E'; tempInput=''; renderScreenText('End?', '5');
+        } else if (currentMode === 'TABLE_E') {
+            tableVars.end = parseFloat(tempInput||5); currentMode = 'TABLE_STP'; tempInput=''; renderScreenText('Step?', '1');
+        } else if (currentMode === 'TABLE_STP') {
+            tableVars.step = parseFloat(tempInput||1);
+            generateTable();
+        }
+    }
+
+    function generateTable() {
+        let html = `<table><tr><th>X</th><th>f(X)</th></tr>`;
+        try {
+            let cleanFunc = tableVars.func.replace(/log\(/g, 'log10(').replace(/ln\(/g, 'log(');
+            let openB = (cleanFunc.match(/\(/g) || []).length;
+            let closeB = (cleanFunc.match(/\)/g) || []).length;
+            while(openB > closeB) { cleanFunc += ')'; closeB++; }
+            
+            let compiled = math.compile(cleanFunc);
+            for(let x = tableVars.start; x <= tableVars.end; x += tableVars.step) {
+                let localScope = {...mathScope, X: x, x: x};
+                let y = compiled.evaluate(localScope);
+                html += `<tr><td>${math.round(x,4)}</td><td>${math.round(y,4)}</td></tr>`;
+            }
+            html += `</table>`;
+            historyDisplay.innerHTML = `f(X)=${tableVars.func}`;
+            eqDisplay.innerHTML = html; resDisplay.innerHTML = '';
+            currentMode = 'TABLE_F'; 
+            currentExpression = '';
+        } catch(e) {
+            renderScreenText('Syntax Error', ''); currentMode = 'TABLE_F'; currentExpression = '';
+        }
+    }
+
+    function processEqn2Var() {
+        let val = parseFloat(tempInput) || 0; tempInput = '';
+        const steps = ['A1', 'B1', 'C1', 'A2', 'B2', 'C2'];
+        const currentIdx = steps.findIndex(s => currentMode.endsWith(s));
+        
+        eqnVars[steps[currentIdx].toLowerCase()] = val;
+
+        if (currentIdx < 5) {
+            currentMode = `EQN_2VAR_${steps[currentIdx+1]}`;
+            renderScreenText(`${steps[currentIdx+1].toLowerCase()}?`, '0');
+        } else {
+            let d = eqnVars.a1*eqnVars.b2 - eqnVars.a2*eqnVars.b1;
+            let dx = eqnVars.c1*eqnVars.b2 - eqnVars.c2*eqnVars.b1;
+            let dy = eqnVars.a1*eqnVars.c2 - eqnVars.a2*eqnVars.c1;
+            if(d === 0) renderScreenText('Math Error', '');
+            else {
+                let x = math.round(dx/d, 5), y = math.round(dy/d, 5);
+                renderScreenText(`X = ${x}`, `<span style="font-size:20px;">Y = ${y}</span>`);
+            }
+            currentMode = 'COMP'; indMode.innerText = 'COMP';
+        }
+    }
+
+    function processEqnQuad() {
+        let val = parseFloat(tempInput) || 0; tempInput = '';
+        if (currentMode === 'EQN_QUAD_A') { eqnVars.a = val; currentMode = 'EQN_QUAD_B'; renderScreenText('b?', '0'); }
+        else if (currentMode === 'EQN_QUAD_B') { eqnVars.b = val; currentMode = 'EQN_QUAD_C'; renderScreenText('c?', '0'); }
+        else if (currentMode === 'EQN_QUAD_C') {
+            eqnVars.c = val;
+            let a=eqnVars.a, b=eqnVars.b, c=eqnVars.c;
+            if (a===0) { renderScreenText('Math Error', ''); return; }
+            let disc = b*b - 4*a*c;
+            if (disc >= 0) {
+                let x1 = math.round((-b + Math.sqrt(disc))/(2*a), 5);
+                let x2 = math.round((-b - Math.sqrt(disc))/(2*a), 5);
+                renderScreenText(`X₁ = ${x1}`, `<span style="font-size: 20px;">X₂ = ${x2}</span>`);
+            } else {
+                let real = math.round(-b/(2*a), 5), imag = math.round(Math.sqrt(-disc)/(2*a), 5);
+                renderScreenText(`X₁ = ${real}+${imag}i`, `<span style="font-size:18px;">X₂ = ${real}-${imag}i</span>`);
+            }
+            currentMode = 'COMP'; indMode.innerText = 'COMP';
+        }
+    }
+
+    function calculateComp() {
+        if (!currentExpression || currentExpression === '0') return;
+        try {
+            let expToEval = currentExpression
+                .replace(/\^2/g, '^2')
+                .replace(/log\(/g, 'log10(') 
+                .replace(/ln\(/g, 'log(')    
+                .replace(/!/g, '!');
+            
+            let openBrackets = (expToEval.match(/\(/g) || []).length;
+            let closeBrackets = (expToEval.match(/\)/g) || []).length;
+            while (openBrackets > closeBrackets) { expToEval += ')'; closeBrackets++; }
+
+            if(currentMode !== 'CMPLX' && /\b[0-9.]*i\b/.test(expToEval)) throw new Error();
+            
+            currentResultValue = math.evaluate(expToEval, mathScope);
+            lastAnswer = currentResultValue; isFractionDisplay = false; isCalculated = true;
+            
+            let formattedEq = formatMathHTML(currentExpression);
+            historyDisplay.innerHTML = formattedEq + ' =';
+            displayResult();
+
+            let histItem = document.createElement('div');
+            histItem.className = 'history-item';
+            histItem.innerHTML = `${formattedEq} = ${resDisplay.innerText}`;
+            sideHistory.prepend(histItem);
+
+        } catch (e) {
+            resDisplay.innerText = 'Syntax Error'; isCalculated = false;
+        }
+    }
+
+    function renderScreenText(eqHTML, resHTML) {
+        eqDisplay.innerHTML = eqHTML; resDisplay.innerHTML = resHTML; historyDisplay.innerHTML = '';
+    }
+
+    function updateScreen() {
+        if(currentMode === 'TABLE_F') eqDisplay.innerHTML = `f(X)=${formatMathHTML(currentExpression)}`;
+        else eqDisplay.innerHTML = formatMathHTML(currentExpression); 
+        
+        setTimeout(() => { eqDisplay.scrollLeft = eqDisplay.scrollWidth; }, 10);
+    }
+
+    function formatMathHTML(expr) {
+        return expr.replace(/\*/g, '×').replace(/\//g, '÷').replace(/sqrt\(/g, '√(').replace(/\^2/g, '²').replace(/\^-1/g, '⁻¹');
+    }
+
+    function toggleSD() {
+        if (currentResultValue === null || isNaN(currentResultValue) || typeof currentResultValue === 'object') return;
+        isFractionDisplay = !isFractionDisplay; displayResult();
+    }
+
+    function displayResult() {
+        if (currentResultValue === null) return;
+        let finalOutput = currentResultValue;
+
+        if (typeof currentResultValue === 'object' && currentResultValue.im !== undefined) {
+            finalOutput = `${math.round(currentResultValue.re,5)} ${currentResultValue.im >= 0 ? '+' : '-'} ${Math.abs(math.round(currentResultValue.im,5))}i`;
+        }
+        else if (isFractionDisplay) {
+            try {
+                const frac = math.fraction(currentResultValue);
+                if (frac.d !== 1) { finalOutput = `${frac.n * frac.s} ⌟ ${frac.d}`; } 
+                else finalOutput = frac.n * frac.s; 
+            } catch(e) { finalOutput = math.format(currentResultValue, {precision: 10}); }
+        } else {
+            finalOutput = math.format(currentResultValue, {precision: 10});
+        }
+        resDisplay.innerHTML = finalOutput;
+    }
+
+    document.addEventListener('keydown', (event) => {
+        const key = event.key;
+        if (['Enter', 'Backspace', 'Escape'].includes(key)) event.preventDefault();
+
+        if (/[0-9\.\+\-\*\/\(\)]/.test(key)) processInput(key);
+        else if (key === 'Enter' || key === '=') handleEquals();
+        else if (key === 'Backspace') deleteLast();
+        else if (key === 'Escape' || key.toLowerCase() === 'c') clearAll();
+        else if (['x', 'y', 'a', 'b', 'c', 'd', 'e', 'f', 'm', 'i'].includes(key.toLowerCase())) processInput(key.toUpperCase());
+    });
+</script>
+</body>
+</html>
