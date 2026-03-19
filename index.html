@@ -13,6 +13,8 @@
             --primary-color: #0f172a;
             --accent-color: #3b82f6;
             --accent-hover: #2563eb;
+            --quran-color: #10b981; /* لون مميز لقسم القرآن */
+            --quran-hover: #059669;
             --text-main: #f8fafc;
             --text-muted: #cbd5e1;
             --bg-color: #020617;
@@ -31,8 +33,6 @@
             transition: opacity 0.3s ease;
         }
 
-        .hidden { display: none !important; }
-
         /* --- شريط التنقل --- */
         nav {
             display: flex; justify-content: space-between; align-items: center;
@@ -45,7 +45,7 @@
         .logo { font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; display: flex; align-items: center; gap: 10px; direction: ltr; }
         .logo span { color: var(--accent-color); }
         .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.3s, transform 0.3s; position: relative; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; transition: color 0.3s, transform 0.3s; position: relative; cursor: pointer; }
         .nav-links a:hover { color: var(--text-main); transform: translateY(-2px); }
         .nav-links a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -5px; left: 0; background-color: var(--accent-color); transition: width 0.3s; }
         .nav-links a:hover::after { width: 100%; }
@@ -56,18 +56,25 @@
         /* --- الأقسام --- */
         section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 100px 8% 50px; }
 
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
 
         #home { background: linear-gradient(to bottom, rgba(2, 6, 23, 0.8), rgba(2, 6, 23, 1)), url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat; position: relative; }
-        #home > * { animation: fadeInUp 1s ease-out forwards; opacity: 0; }
-        h1 { font-size: 4rem; font-weight: 700; margin-bottom: 20px; line-height: 1.2; animation-delay: 0.2s; }
+        #home > * { animation: fadeInUp 0.8s ease-out forwards; }
+        h1 { font-size: 4rem; font-weight: 700; margin-bottom: 20px; line-height: 1.2; }
         h1 span { background: linear-gradient(45deg, var(--accent-color), #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        p { font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin-bottom: 40px; animation-delay: 0.4s; }
+        p { font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin-bottom: 30px; }
 
-        .join-btn { display: inline-flex; align-items: center; gap: 12px; background-color: #5865F2; color: white; padding: 16px 36px; text-decoration: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; box-shadow: 0 10px 25px -5px rgba(88, 101, 242, 0.5); transition: all 0.3s ease; animation-delay: 0.6s; }
-        .join-btn:hover { background-color: #4752C4; transform: translateY(-5px) scale(1.02); box-shadow: 0 15px 35px -5px rgba(88, 101, 242, 0.6); }
+        .hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+        .btn { display: inline-flex; align-items: center; gap: 12px; padding: 14px 30px; text-decoration: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; transition: all 0.3s ease; cursor: pointer; border: none; font-family: inherit; }
+        .join-btn { background-color: #5865F2; color: white; box-shadow: 0 10px 25px -5px rgba(88, 101, 242, 0.5); }
+        .join-btn:hover { background-color: #4752C4; transform: translateY(-3px); box-shadow: 0 15px 35px -5px rgba(88, 101, 242, 0.6); }
+        .rules-btn { background-color: transparent; color: var(--text-main); border: 2px solid rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); }
+        .rules-btn:hover { background-color: rgba(255, 255, 255, 0.1); border-color: var(--accent-color); transform: translateY(-3px); }
 
-        .server-stats-widget { display: flex; justify-content: center; gap: 30px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px 35px; border-radius: 20px; margin-top: 60px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); animation-delay: 0.8s; flex-wrap: wrap; }
+        .server-stats-widget { display: flex; justify-content: center; gap: 30px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); padding: 20px 35px; border-radius: 20px; margin-top: 20px; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); flex-wrap: wrap; }
         .stat-item { display: flex; align-items: center; gap: 15px; padding: 10px 15px; border-radius: 12px; transition: all 0.3s ease; }
         .stat-item:hover { background: rgba(255, 255, 255, 0.05); transform: translateY(-3px); }
         .stat-item i { font-size: 2.2rem; }
@@ -76,49 +83,357 @@
         .stat-info h4 { font-size: 1.6rem; color: var(--text-main); margin-bottom: 0; line-height: 1.2; font-weight: 700; direction: ltr; display: inline-block; }
         .stat-info span { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; }
 
-        .card-container { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); padding: 50px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); max-width: 800px; width: 100%; backdrop-filter: blur(10px); transition: background 0.5s ease; }
+        /* صور الأعضاء المتصلين */
+        .live-avatars-container { margin-top: 15px; text-align: center; }
+        .live-avatars-title { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .live-avatars { display: flex; justify-content: center; }
+        .live-avatars img { width: 40px; height: 40px; border-radius: 50%; margin-left: -12px; border: 2px solid var(--section-bg); box-shadow: 0 4px 10px rgba(0,0,0,0.3); transition: transform 0.3s; }
+        html[dir="rtl"] .live-avatars img { margin-left: 0; margin-right: -12px; }
+        .live-avatars img:first-child { margin-left: 0; margin-right: 0; }
+        .live-avatars img:hover { transform: translateY(-5px); z-index: 10; }
+        .more-avatars { width: 40px; height: 40px; border-radius: 50%; background: #5865F2; color: white; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; margin-left: -12px; border: 2px solid var(--section-bg); z-index: 1; }
+        html[dir="rtl"] .more-avatars { margin-left: 0; margin-right: -12px; }
+
+        .card-container { background: var(--card-bg); border: 1px solid rgba(255, 255, 255, 0.05); padding: 50px; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.4); max-width: 800px; width: 100%; backdrop-filter: blur(10px); transition: background 0.5s ease; animation: fadeInUp 0.8s ease-out forwards; }
         h2 { font-size: 2.5rem; margin-bottom: 25px; color: var(--text-main); position: relative; display: inline-block; }
         h2::after { content: ''; position: absolute; width: 50%; height: 3px; bottom: -10px; left: 50%; transform: translateX(-50%); background-color: var(--accent-color); border-radius: 5px; }
 
-        /* --- الأقسام الأخرى --- */
-        #rules { background-color: var(--section-bg); }
-        .rules-wrapper { max-width: 1000px !important; }
-        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; text-align: left; }
+        /* --- قسم القرآن (الماهر) --- */
+        #quran { background: linear-gradient(135deg, rgba(2, 6, 23, 0.9), rgba(16, 185, 129, 0.05)), url('https://www.transparenttextures.com/patterns/arabesque.png'); }
+        .quran-wrapper { max-width: 900px !important; border-color: rgba(16, 185, 129, 0.2); box-shadow: 0 20px 50px rgba(16, 185, 129, 0.1); background: rgba(15, 23, 42, 0.85); }
+        .quran-wrapper h2::after { background-color: var(--quran-color); }
+        .quran-icon { font-size: 4rem; color: var(--quran-color); margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.4)); }
+        .quran-btn { background-color: var(--quran-color); color: white; margin-top: 20px; box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4); padding: 16px 40px; font-size: 1.2rem; border-radius: 50px; }
+        .quran-btn:hover { background-color: var(--quran-hover); transform: translateY(-3px); box-shadow: 0 15px 35px -5px rgba(16, 185, 129, 0.5); }
+
+        /* --- قسم مميزات السيرفر --- */
+        #features { background-color: var(--section-bg); }
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; max-width: 1000px; width: 100%; margin-top: 30px; }
+        .feature-card { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px 20px; border-radius: 16px; transition: all 0.3s ease; text-align: center; }
+        .feature-card:hover { transform: translateY(-10px); background: rgba(15, 23, 42, 0.9); border-color: var(--accent-color); box-shadow: 0 15px 30px rgba(59, 130, 246, 0.15); }
+        .feature-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 15px; }
+        .feature-card h3 { color: var(--text-main); margin-bottom: 10px; font-size: 1.3rem; }
+        .feature-card p { font-size: 0.95rem; color: var(--text-muted); margin: 0; }
+
+        /* --- مودال القوانين --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 2000; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-content { background: var(--section-bg); width: 90%; max-width: 800px; max-height: 80vh; border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); padding: 40px; position: relative; overflow-y: auto; transform: scale(0.9); transition: all 0.3s ease; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .close-modal { position: absolute; top: 20px; right: 25px; background: transparent; border: none; color: var(--text-muted); font-size: 1.8rem; cursor: pointer; transition: color 0.3s; }
+        html[dir="rtl"] .close-modal { right: auto; left: 25px; }
+        .close-modal:hover { color: #ef4444; }
+        .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; text-align: left; }
         html[dir="rtl"] .rules-grid { text-align: right; }
-        .rule-card { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 25px; border-radius: 15px; transition: all 0.3s ease; position: relative; }
-        .rule-card:hover { transform: translateY(-5px); border-color: var(--accent-color); box-shadow: 0 10px 25px rgba(59, 130, 246, 0.15); background: rgba(15, 23, 42, 0.9); }
-        .rule-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; color: var(--accent-color); font-weight: 700; font-size: 1.15rem; }
+        .rule-card { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; transition: all 0.3s ease; }
+        .rule-card:hover { border-color: var(--accent-color); background: rgba(15, 23, 42, 0.9); }
+        .rule-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: var(--accent-color); font-weight: 700; font-size: 1.05rem; }
+
+        /* --- قسم الفريق (Our Team) --- */
+        #team { background-color: var(--bg-color); }
+        .team-wrapper { max-width: 1000px !important; background: transparent; box-shadow: none; padding: 20px; border: none; }
+        .team-grid { display: flex; flex-wrap: wrap; gap: 25px; justify-content: center; margin-top: 40px; }
+        .team-card { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px 20px; border-radius: 20px; width: 220px; text-align: center; transition: all 0.3s ease; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; flex-direction: column; align-items: center; }
+        .team-card:hover { transform: translateY(-10px); border-color: var(--accent-color); background: rgba(15, 23, 42, 0.9); box-shadow: 0 15px 35px rgba(59, 130, 246, 0.2); }
+        .team-avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-color), #60a5fa); color: white; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; margin: 0 auto 15px; box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4); }
+        .team-name { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+        .team-role { font-size: 0.85rem; color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; }
         
-        #downloads { background-color: var(--bg-color); }
-        .downloads-wrapper { max-width: 1100px !important; }
+        /* أيقونات السوشيال ميديا في كروت الفريق */
+        .team-socials { display: flex; justify-content: center; gap: 10px; width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 15px; }
+        .social-icon { color: var(--text-muted); font-size: 1rem; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05); text-decoration: none; transition: all 0.3s ease; }
+        .social-icon:hover { transform: translateY(-3px); color: white; }
+        .social-icon.discord:hover { background-color: #5865F2; box-shadow: 0 5px 15px rgba(88, 101, 242, 0.4); }
+        .social-icon.tiktok:hover { background-color: #000000; box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2); }
+        .social-icon.instagram:hover { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); box-shadow: 0 5px 15px rgba(225, 48, 108, 0.4); }
+        .social-icon.whatsapp:hover { background-color: #25D366; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); }
+
+        /* --- قسم الأسئلة الشائعة (FAQ) --- */
+        #faq { background-color: var(--section-bg); padding-top: 50px; }
+        .faq-wrapper { max-width: 800px; width: 100%; margin: 0 auto; text-align: left; }
+        html[dir="rtl"] .faq-wrapper { text-align: right; }
+        .faq-item { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; margin-bottom: 15px; overflow: hidden; transition: all 0.3s ease; }
+        .faq-question { padding: 20px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-weight: 600; color: var(--text-main); transition: background 0.3s; }
+        .faq-question:hover { background: rgba(15, 23, 42, 0.9); color: var(--accent-color); }
+        .faq-question i { transition: transform 0.3s ease; color: var(--accent-color); }
+        .faq-answer { padding: 0 20px; max-height: 0; overflow: hidden; transition: all 0.4s ease; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+        .faq-item.active { border-color: var(--accent-color); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .faq-item.active .faq-answer { padding: 0 20px 20px; max-height: 300px; }
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+
+        /* --- قسم التايمرز --- */
+        #timers { background-color: var(--bg-color); }
+        .downloads-wrapper { max-width: 900px !important; }
         .downloads-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 40px; width: 100%; }
         .download-card { background: rgba(2, 6, 23, 0.6); border: 1px solid rgba(255, 255, 255, 0.05); padding: 30px; border-radius: 20px; transition: all 0.3s ease; text-align: left; display: flex; flex-direction: column; height: 100%; }
         html[dir="rtl"] .download-card { text-align: right; }
-        .download-card:hover { transform: translateY(-10px); border-color: var(--accent-color); box-shadow: 0 15px 30px rgba(59, 130, 246, 0.15); background: rgba(15, 23, 42, 0.9); }
+        .download-card:hover { transform: translateY(-8px); border-color: var(--accent-color); box-shadow: 0 15px 30px rgba(59, 130, 246, 0.15); background: rgba(15, 23, 42, 0.9); }
         .card-icon { font-size: 2.5rem; color: var(--accent-color); margin-bottom: 20px; }
         .card-title { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main); }
         .download-btn { display: inline-flex; justify-content: center; align-items: center; gap: 10px; background-color: var(--accent-color); color: white; padding: 12px 24px; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s ease; width: 100%; margin-top: auto;}
         .download-btn:hover { background-color: var(--accent-hover); }
 
-        footer { text-align: center; padding: 30px; background-color: var(--section-bg); color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.95rem; margin-bottom: 0; transition: margin-bottom 0.4s;}
+        footer { text-align: center; padding: 30px; background-color: var(--section-bg); color: var(--text-muted); border-top: 1px solid rgba(255, 255, 255, 0.05); font-size: 0.95rem; margin-bottom: 0; }
+
+        /* --- زرار الرجوع للأعلى --- */
+        #scrollTopBtn { position: fixed; bottom: 30px; right: 30px; background: var(--accent-color); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; font-size: 1.2rem; cursor: pointer; display: none; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4); z-index: 999; transition: all 0.3s ease; }
+        html[dir="rtl"] #scrollTopBtn { right: auto; left: 30px; }
+        #scrollTopBtn:hover { background: var(--accent-hover); transform: translateY(-5px); }
 
         @media (max-width: 768px) {
             nav { padding: 15px 5%; flex-direction: column; gap: 15px; }
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 10px;}
+            .hero-buttons { flex-direction: column; padding: 0 20px; }
+            .team-card { width: 100%; max-width: 250px; }
+        }
+        .social-sidebar {
+            position: fixed;
+            left: -60px; /* مخفي جهة اليسار */
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-left: none;
+            border-radius: 0 15px 15px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* مسافة بين الأيقونات */
+            padding: 20px 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2001; /* أعلى من كل حاجة */
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+        }
+
+        /* حالة الفتح */
+        .social-sidebar.active { 
+            left: 0; 
+        }
+
+        .social-sidebar a {
+            color: var(--text-muted);
+            font-size: 1.4rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+        }
+
+        .social-sidebar a:hover {
+            color: white;
+            transform: scale(1.2);
+        }
+
+        /* ألوان السوشيال ميديا */
+        .social-sidebar a.tiktok:hover { color: #ff0050; }
+        .social-sidebar a.instagram:hover { color: #E1306C; }
+        .social-sidebar a.youtube:hover { color: #FF0000; }
+
+        /* زرار السهم */
+        .toggle-sidebar-btn {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 50px;
+            border-radius: 0 10px 10px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            padding: 0;
+            margin: 0;
+        }
+
+        /* ضبط المسافات في حالة اللغة العربية (RTL) */
+        html[dir="rtl"] .social-sidebar {
+            left: auto;
+            right: -60px;
+            border-radius: 15px 0 0 15px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: none;
+        }
+        html[dir="rtl"] .social-sidebar.active { 
+            right: 0; 
+        }
+        html[dir="rtl"] .toggle-sidebar-btn {
+            right: auto;
+            left: -30px;
+            border-radius: 10px 0 0 10px;
+        }
+        .footer-tiktok-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .footer-tk-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 10px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-tk-btn:hover {
+            background: #ff0050;
+            border-color: #ff0050;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 0, 80, 0.4);
+        }
+
+        .tk-popup-card {
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            width: 260px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        /* الكارت لما يظهر */
+        .tk-popup-card.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* سهم صغير نازل من الكارت */
+        .tk-popup-card::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 8px 8px 0;
+            border-style: solid;
+            border-color: rgba(15, 23, 42, 0.95) transparent transparent transparent;
+        }
+
+        .tk-popup-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #ff0050;
+            margin-bottom: 12px;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(255, 0, 80, 0.3);
+        }
+
+        .tk-details h4 {
+            margin: 0;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .tk-username {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 15px;
+        }
+
+        .tk-stats {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 12px 0;
+        }
+
+        .tk-stats div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tk-stats strong {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .tk-stats span {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .tk-follow-btn {
+            display: block;
+            background: #ff0050;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+
+        .tk-follow-btn:hover {
+            background: #e60048;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body>
+
+    <div class="social-sidebar" id="socialSidebar">
+        <button class="toggle-sidebar-btn" onclick="toggleSocialSidebar()">
+            <i class="fa-solid fa-chevron-right" id="sidebarIcon"></i>
+        </button>
+        
+        <a href="https://www.tiktok.com/@academic.society7?_r=1&_t=ZS-94o32rbhjWy" class="tiktok" target="_blank" title="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+        
+        <a href="coming_soon.html" class="instagram" target="_blank" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="coming_soon.html" class="youtube" target="_blank" title="YouTube">
+            <i class="fa-brands fa-youtube"></i>
+        </a>
+    </div>
 
     <nav>
         <a href="#home" class="logo" style="direction: ltr;"><i class="fa-solid fa-graduation-cap"></i> Academic <span>Society</span></a>
         <div class="nav-links">
             <a href="#home" data-i18n="nav_home">Home</a>
             <a href="#about" data-i18n="nav_about">Who We Are</a>
-            <a href="quran.html" data-i18n="nav_quran">Quran</a>
-            <a href="#rules" data-i18n="nav_rules">Rules</a>
-            <a href="#games" data-i18n="nav_games">Games</a>
-            <a href="#downloads" data-i18n="nav_downloads">Apps</a>
+            <a href="#features" data-i18n="nav_features">Features</a> 
+            <a href="#quran" data-i18n="nav_quran">Al-Maher (Quran)</a> 
+            <a href="#team" data-i18n="nav_team">Our Team</a>
+            <a onclick="openRulesModal()" data-i18n="nav_rules">Rules</a>
+            <a href="#timers" data-i18n="nav_timers">Timers</a>
+            <a href="#faq" data-i18n="nav_faq">FAQ</a>
             <button class="lang-btn" id="langToggle" onclick="toggleLanguage()">
                 <i class="fa-solid fa-globe"></i> <span id="langText">عربي</span>
             </button>
@@ -126,11 +441,17 @@
     </nav>
 
     <section id="home">
-        <h1 data-i18n="hero_title"> Welcome to <span>Academic Society</span></h1>
-        <p data-i18n="hero_desc">Your chill spot to learn, share cool ideas, and level up together. Hop in and let's build the future, bro.</p>
-        <a href="https://discord.gg/7eYzD5evsE" target="_blank" class="join-btn">
-            <i class="fa-brands fa-discord fa-lg"></i> <span data-i18n="hero_btn">Jump into Discord</span>
-        </a>
+        <h1 data-i18n="hero_title">Welcome to <span>Academic Society</span></h1>
+        <p data-i18n="hero_desc">Your dedicated space for studying, time management, and entertainment in a respectful community. Join us and build a healthy routine.</p>
+        
+        <div class="hero-buttons">
+            <a href="https://discord.gg/7eYzD5evsE" target="_blank" class="btn join-btn">
+                <i class="fa-brands fa-discord fa-lg"></i> <span data-i18n="hero_btn">Join us on Discord</span>
+            </a>
+            <button onclick="openRulesModal()" class="btn rules-btn">
+                <i class="fa-solid fa-scroll"></i> <span data-i18n="btn_rules">Server Rules</span>
+            </button>
+        </div>
 
         <div class="server-stats-widget">
             <div class="stat-item"><i class="fa-solid fa-users" style="color: #3b82f6;"></i><div class="stat-info"><h4 id="discord-members">--</h4><span data-i18n="stat_members">Members</span></div></div>
@@ -138,65 +459,172 @@
             <div class="stat-item"><i class="fa-solid fa-headset" style="color: #a855f7;"></i><div class="stat-info"><h4 id="discord-voice">--</h4> <span data-i18n="stat_voice">In Voice</span></div></div>
             <div class="stat-item"><i class="fa-solid fa-hashtag" style="color: #f59e0b;"></i><div class="stat-info"><h4 id="discord-channels">--</h4> <span data-i18n="stat_channels">Channels</span></div></div>
         </div>
+        
+        <div class="live-avatars-container" id="live-avatars-container" style="display: none;">
+            <div class="live-avatars-title" data-i18n="stat_live_now">Live Now</div>
+            <div class="live-avatars" id="live-avatars">
+                </div>
+        </div>
     </section>
+
+    <div id="rulesModal" class="modal-overlay" onclick="closeRulesModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeRulesModal(event)"><i class="fa-solid fa-xmark"></i></button>
+            <h2 data-i18n="rules_title" style="margin-bottom: 10px;">Server Rules</h2>
+            <div class="rules-grid">
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-handshake"></i> <span data-i18n="rule_1_title">1. Respect is Key</span></div><p data-i18n="rule_1_desc" style="font-size: 0.9rem; margin:0;">No insults, belittling...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-regular fa-face-smile-beam"></i> <span data-i18n="rule_2_title">2. Keep Jokes Light</span></div><p data-i18n="rule_2_desc" style="font-size: 0.9rem; margin:0;">Joking is fine...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-ban"></i> <span data-i18n="rule_3_title">3. No Spamming</span></div><p data-i18n="rule_3_desc" style="font-size: 0.9rem; margin:0;">Do not repeat...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="rule_4_title">4. No NSFW Content</span></div><p data-i18n="rule_4_desc" style="font-size: 0.9rem; margin:0;">Anything inappropriate...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-mosque"></i> <span data-i18n="rule_5_title">5. No Mocking Religion</span></div><p data-i18n="rule_5_desc" style="font-size: 0.9rem; margin:0;">This is a Muslim server...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-link-slash"></i> <span data-i18n="rule_6_title">6. No Unauthorized Links</span></div><p data-i18n="rule_6_desc" style="font-size: 0.9rem; margin:0;">Any link must be approved...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-signs-post"></i> <span data-i18n="rule_7_title">7. Use Channels Correctly</span></div><p data-i18n="rule_7_desc" style="font-size: 0.9rem; margin:0;">Post in the right place...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="rule_8_title">8. Resolve Issues Calmly</span></div><p data-i18n="rule_8_desc" style="font-size: 0.9rem; margin:0;">Do not drag fights...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-user-shield"></i> <span data-i18n="rule_9_title">9. Privacy is a Red Line</span></div><p data-i18n="rule_9_desc" style="font-size: 0.9rem; margin:0;">Do not share...</p></div>
+                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-gavel"></i> <span data-i18n="rule_10_title">10. Admin Decisions are Final</span></div><p data-i18n="rule_10_desc" style="font-size: 0.9rem; margin:0;">Any violation will result...</p></div>
+            </div>
+        </div>
+    </div>
 
     <section id="about">
         <div class="card-container">
             <h2 data-i18n="about_title">Who Are We?</h2>
-            <p data-i18n="about_desc" style="margin-top: 20px;">This server is just a chill place to hang out, play games, talk, laugh, and meet cool people. No heavy rules, no boring vibes — just a friendly space where you can be yourself.<br><br>We’ve got organized channels, fun bots, events, games, and a community that actually feels like friends, not strangers.<br><br>Whether you’re here to game, chat, join voice, share memes, or just relax after a long day — you’re welcome.<br><br>Simple as that:<br>Join, vibe, and enjoy</p>
+            <p data-i18n="about_desc" style="margin-top: 20px;">Welcome to Academic Society. Our server is a respectful and calm space that combines focused studying with entertainment. We aim to provide an environment that helps you accomplish your tasks and organize your day, while also offering a place to relax and play with respectful members.<br><br>The server offers quiet study rooms for deep focus, gaming rooms for your break time, and dedicated bots to help you manage your time (like Pomodoro) and listen to the Holy Quran.<br><br>Whether you are looking for a highly focused study environment or want to unwind with games in a respectful community, you have found your place with us.</p>
         </div>
     </section>
 
-    <section id="rules">
-        <div class="card-container rules-wrapper">
-            <h2 data-i18n="rules_title">Server Rules</h2>
-            <div class="rules-grid">
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-handshake"></i> <span data-i18n="rule_1_title">1. Respect is Key</span></div><p data-i18n="rule_1_desc">No insults, belittling...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-regular fa-face-smile-beam"></i> <span data-i18n="rule_2_title">2. Keep Jokes Light</span></div><p data-i18n="rule_2_desc">Joking is fine...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-ban"></i> <span data-i18n="rule_3_title">3. No Spamming</span></div><p data-i18n="rule_3_desc">Do not repeat...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="rule_4_title">4. No NSFW Content</span></div><p data-i18n="rule_4_desc">Anything inappropriate...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-mosque"></i> <span data-i18n="rule_5_title">5. No Mocking Religion</span></div><p data-i18n="rule_5_desc">This is a Muslim server...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-link-slash"></i> <span data-i18n="rule_6_title">6. No Unauthorized Links</span></div><p data-i18n="rule_6_desc">Any link must be approved...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-signs-post"></i> <span data-i18n="rule_7_title">7. Use Channels Correctly</span></div><p data-i18n="rule_7_desc">Post in the right place...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-scale-balanced"></i> <span data-i18n="rule_8_title">8. Resolve Issues Calmly</span></div><p data-i18n="rule_8_desc">Do not drag fights...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-user-shield"></i> <span data-i18n="rule_9_title">9. Privacy is a Red Line</span></div><p data-i18n="rule_9_desc">Do not share...</p></div>
-                <div class="rule-card"><div class="rule-header"><i class="fa-solid fa-gavel"></i> <span data-i18n="rule_10_title">10. Admin Decisions are Final</span></div><p data-i18n="rule_10_desc">Any violation will result...</p></div>
+    <section id="features">
+        <h2 data-i18n="features_title">Server Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fa-solid fa-book-open feature-icon"></i>
+                <h3 data-i18n="feat_study_title">Study Rooms</h3>
+                <p data-i18n="feat_study_desc">Quiet rooms dedicated to focused studying, where you can turn on your cam or screen share with peers.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-gamepad feature-icon"></i>
+                <h3 data-i18n="feat_gaming_title">Gaming Channels</h3>
+                <p data-i18n="feat_gaming_desc">Break time is important. We provided dedicated rooms to play your favorite games with members respectfully.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-robot feature-icon"></i>
+                <h3 data-i18n="feat_bots_title">Organization & Utilities</h3>
+                <p data-i18n="feat_bots_desc">Helpful bots to assist you in organizing your day, managing your time, and listening to the Quran.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-ranking-star feature-icon"></i>
+                <h3 data-i18n="feat_leveling_title">Leveling System</h3>
+                <p data-i18n="feat_leveling_desc">A ranking system that encourages commitment and positive participation in study and general channels.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-calendar-star feature-icon"></i>
+                <h3 data-i18n="feat_events_title">Community Events</h3>
+                <p data-i18n="feat_events_desc">Weekly gatherings and light competitions to disconnect from study stress.</p>
             </div>
         </div>
     </section>
 
-    <section id="games">
-        <div class="card-container downloads-wrapper">
-            <h2 data-i18n="games_title">Games Hub</h2>
-            <p data-i18n="games_desc" style="margin-top: 10px; color: var(--text-muted);">Take a break and enjoy some games.</p>
-            <div class="downloads-grid">
-                <div class="download-card">
-                    <i class="fa-solid fa-gamepad card-icon"></i>
-                    <h3 class="card-title" data-i18n="game1_title">Snake Game 🐍</h3>
-                    <p class="card-desc" data-i18n="game1_desc">Classic snake game...</p>
-                    <a href="snake.html" class="download-btn" target="_blank">
-                        <i class="fa-solid fa-play"></i> 
-                        <span data-i18n="btn_play">Play Now</span>
-                    </a>
-                </div>
+    <section id="quran">
+        <div class="card-container quran-wrapper">
+            <i class="fa-solid fa-book-quran quran-icon"></i>
+            <h2 data-i18n="quran_title">Al-Maher for Quran</h2>
+            <p data-i18n="quran_desc" style="margin-top: 15px; color: var(--text-main); font-size: 1.15rem;">Immerse yourself in the words of Allah. Listen, read, and reflect on the Holy Quran through our dedicated platform, beautifully designed for your spiritual journey.</p>
+            <br>
+            <a href="https://academicsociety.github.io/Al-maher-/" target="_blank" class="btn quran-btn">
+                <i class="fa-solid fa-kaaba"></i> <span data-i18n="quran_btn">Enter Al-Maher</span>
+            </a>
+        </div>
+    </section>
 
-                <div class="download-card">
-                    <i class="fa-solid fa-car card-icon"></i>
-                    <h3 class="card-title">Cars Game 🚗</h3>
-                    <p class="card-desc"> car racing game...</p>
-                    <a href="Cars.html" class="download-btn" target="_blank">
-                        <i class="fa-solid fa-play"></i> 
-                        Play Now
-                    </a>
+    <section id="team">
+        <div class="card-container team-wrapper">
+            <h2 data-i18n="team_section_title">Our Team</h2>
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar"><i class="fa-solid fa-user-astronaut"></i></div>
+                    <h3 class="team-name" data-i18n="team_mohammed">Mohammed</h3>
+                    <span class="team-role" data-i18n="role_owner">Owner</span>
+                    <div class="team-socials">
+                        <a href="https://discord.com/users/1175292134094536725" class="social-icon discord" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                        <a href="https://www.tiktok.com/@eng.mohammedsaad1" class="social-icon tiktok" target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                        <a href="https://www.instagram.com/msaadm.07" class="social-icon instagram" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://wa.me/201096925903" class="social-icon whatsapp" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar"><i class="fa-solid fa-user-ninja"></i></div>
+                    <h3 class="team-name" data-i18n="team_mohanned">Mohanned</h3>
+                    <span class="team-role" data-i18n="role_admin">Admin</span>
+                    <div class="team-socials">
+                        <a href="https://discord.com/users/1476521490966122577" class="social-icon discord" target="_blank"><i class="fa-brands fa-discord"></i></a>
+
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar"><i class="fa-solid fa-user-tie"></i></div>
+                    <h3 class="team-name" data-i18n="team_abdo">Abdo</h3>
+                    <span class="team-role" data-i18n="role_admin">Admin</span>
+                    <div class="team-socials">
+                        <a href="https://discord.com/users/1209770115466268733" class="social-icon discord" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar"><i class="fa-solid fa-user-secret"></i></div>
+                    <h3 class="team-name" data-i18n="team_yossef">Yossef Abbas</h3>
+                    <span class="team-role" data-i18n="role_admin">Admin</span>
+                    <div class="team-socials">
+                        <a href="https://discord.com/users/1373616899333820417" class="social-icon discord" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                    </div>
+                </div>
+                <div class="team-card">
+                    <div class="team-avatar"><i class="fa-solid fa-user-shield"></i></div>
+                    <h3 class="team-name" data-i18n="team_ahmed">Ahmed Riyad</h3>
+                    <span class="team-role" data-i18n="role_admin">Admin</span>
+                    <div class="team-socials">
+                        <a href="https://discord.com/users/1467015284945588296" class="social-icon discord" target="_blank"><i class="fa-brands fa-discord"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="downloads">
+    <section id="faq">
+        <h2 data-i18n="faq_title" style="margin-bottom: 40px;">Frequently Asked Questions</h2>
+        <div class="faq-wrapper">
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span data-i18n="faq_q1">How can I join the voice channels?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-i18n="faq_a1">You just need to join our Discord server, read the rules, and you will automatically get the member role to access all voice channels.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span data-i18n="faq_q2">Is the server only for studying?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-i18n="faq_a2">Not at all! While we have dedicated study zones, we also have gaming channels, respectful general chat, and regular community events.</p>
+                </div>
+            </div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    <span data-i18n="faq_q3">How do I become a moderator?</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p data-i18n="faq_a3">We occasionally open applications for staff. Be active, help others, and keep an eye on the announcements channel!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="timers">
         <div class="card-container downloads-wrapper">
-            <h2 data-i18n="downloads_title">Software Hub</h2>
-            <p data-i18n="downloads_desc" style="margin-top: 10px; color: var(--text-muted);">Download tools for our community.</p>
+            <h2 data-i18n="timers_title">Timer(Pomodoro)</h2>
+            <p data-i18n="timers_desc" style="margin-top: 10px; color: var(--text-muted);">Choose your preferred Pomodoro timer.</p>
             <div class="downloads-grid">
                 <div class="download-card">
                     <i class="fa-solid fa-stopwatch card-icon"></i>
@@ -210,56 +638,98 @@
                     <p class="card-desc" data-i18n="pomo_mob_desc">Optimized Pomodoro timer for Mobile devices.</p>
                     <a href="timer_mobile.html" class="download-btn" target="_blank"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="btn_open">Open App</span></a>
                 </div>
-                <div class="download-card">
-                    <i class="fa-solid fa-book-quran card-icon"></i>
-                    <h3 class="card-title" data-i18n="prog1_title">Al Maher</h3>
-                    <p class="card-desc" data-i18n="prog1_desc">Al Maher Desktop application...</p>
-                    <a href="https://drive.google.com/file/d/1R4fCnyD1n-_pZblCpEW1HiN0cE6ryUOB/view?usp=sharing" class="download-btn" target="_blank"><i class="fa-solid fa-download"></i> <span data-i18n="btn_download">Download</span></a>
-                </div>
-                <div class="download-card">
-                    <i class="fa-solid fa-calculator card-icon"></i>
-                    <h3 class="card-title" data-i18n="prog4_title">Calculator</h3>
-                    <p class="card-desc" data-i18n="prog4_desc">Quick and easy scientific calculator.</p>
-                    <a href="calculator.html" class="download-btn" target="_blank"><i class="fa-solid fa-up-right-from-square"></i> <span data-i18n="btn_open">Open App</span></a>
-                </div>
-                <div class="download-card">
-                    <i class="fa-solid fa-broom card-icon"></i>
-                    <h3 class="card-title" data-i18n="prog2_title">Eto Temp Cleaner</h3>
-                    <p class="card-desc" data-i18n="prog2_desc">Cache cleaner and PC speed-up tool.</p>
-                    <a href="https://drive.google.com/file/d/1S8Xxj7Ql_FbmbEJ-O2SqIl7swZHI9Jck/view?usp=sharing" class="download-btn" target="_blank"><i class="fa-solid fa-download"></i> <span data-i18n="btn_download">Download</span></a>
-                </div>
-                <div class="download-card">
-                    <i class="fa-solid fa-image card-icon"></i>
-                    <h3 class="card-title" data-i18n="prog3_title">Converter Images</h3>
-                    <p class="card-desc" data-i18n="prog3_desc">Easy image format converter.</p>
-                    <a href="https://drive.google.com/file/d/1U_4wUli7IRLuCAKO4lv1P0HNrk6CSIKP/view?usp=sharing" class="download-btn" target="_blank"><i class="fa-solid fa-download"></i> <span data-i18n="btn_download">Download</span></a>
-                </div>
             </div>
         </div>
     </section>
 
     <footer id="mainFooter">
-        <p data-i18n="footer_text">&copy; 2026 Academic Society. All rights reserved</p>
+        <div class="footer-tiktok-wrapper">
+            <button class="footer-tk-btn" onclick="toggleTiktokCard(event)">
+                <i class="fa-brands fa-tiktok"></i> تيك توك السيرفر
+            </button>
+            
+            <div class="tk-popup-card" id="tkPopupCard">
+                <img src="https://p16-sign-sg.tiktokcdn.com/tos-alisg-avt-0068/8e722aca0cc91f9c05b60cc03b48cfa9~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=75ca1714&x-expires=1774054800&x-signature=gL1Goql3YyYzsB0guI3nzDXe4gQ%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my" alt="TikTok Profile">
+                <div class="tk-details">
+                    <h4>Academic Society</h4>
+                    <span class="tk-username">@academic.society7</span>
+                    <div class="tk-stats">
+                        <div><strong>2</strong><span>متابع</span></div>
+                        <div><strong>0</strong><span>لايك</span></div>
+                    </div>
+                    <a href="https://www.tiktok.com/@academic.society7?_r=1&_t=ZS-94o32rbhjWy" target="_blank" class="tk-follow-btn">تابعنا دلوقتي</a>
+                </div>
+            </div>
+        </div>
+
+        <p data-i18n="footer_text">&copy; 2026 Academic Society. All rights reserved   صل ع النبي</p>
     </footer>
 
+    <button id="scrollTopBtn" onclick="scrollToTop()" title="Go to top"><i class="fa-solid fa-arrow-up"></i></button>
+
     <script>
-        // --- 1. إعدادات الديسكورد ---
+        // إعدادات الديسكورد
         const SERVER_ID = '1453739248468623457';
         const MANUAL_TOTAL_CHANNELS = 25; 
+        
         async function fetchDiscordStats() {
             try {
+                // عدد الأعضاء الكلي
                 const inviteResponse = await fetch('https://discord.com/api/invites/7eYzD5evsE?with_counts=true');
                 const inviteData = await inviteResponse.json();
                 if (inviteData && inviteData.approximate_member_count) {
                     document.getElementById('discord-members').textContent = inviteData.approximate_member_count + "+";
                     document.getElementById('discord-online').textContent = inviteData.approximate_presence_count;
                 }
+                
+                // جلب الداتا من الـ Widget
                 const widgetResponse = await fetch(`https://discord.com/api/guilds/${SERVER_ID}/widget.json`);
                 if (widgetResponse.ok) {
                     const widgetData = await widgetResponse.json();
-                    const voiceCount = widgetData.members.filter(m => m.channel_id).length;
+                    
+                    // لستة بأسماء البوتات المشهورة لضمان عدم ظهورهم
+                    const knownBots = ['bot', 'probot', 'mee6', 'carl', 'mudae', 'dyno', 'ticket', 'owo', 'dank', 'helper', 'music', 'rythm', 'octave', 'ayana', 'koya', 'loritta', 'arcane', 'yagpdb', 'maki'];
+                    
+                    // فلترة البوتات من قائمة الأعضاء
+                    const realMembers = widgetData.members.filter(m => {
+                        const name = (m.username || "").toLowerCase();
+                        // استبعاد البوتات بناءً على خصائصها أو أسمائها
+                        const isBotByName = knownBots.some(botName => name.includes(botName));
+                        return !m.bot && !isBotByName;
+                    });
+                    
+                    // حساب المتصلين في الرومات الصوتية (للأعضاء الحقيقيين فقط)
+                    const voiceCount = realMembers.filter(m => m.channel_id).length;
                     document.getElementById('discord-voice').textContent = voiceCount;
                     document.getElementById('discord-channels').textContent = MANUAL_TOTAL_CHANNELS;
+
+                    // إضافة صور الأعضاء المتصلين الحقيقيين فقط
+                    if(realMembers && realMembers.length > 0) {
+                        const avatarsContainer = document.getElementById('live-avatars');
+                        avatarsContainer.innerHTML = ''; // تفريغ المحتوى القديم
+                        document.getElementById('live-avatars-container').style.display = 'block';
+                        
+                        // هناخد أول 6 أعضاء أونلاين بس عشان الشكل
+                        const displayMembers = realMembers.slice(0, 6);
+                        displayMembers.forEach(member => {
+                            if(member.avatar_url) {
+                                const img = document.createElement('img');
+                                img.src = member.avatar_url;
+                                img.alt = member.username;
+                                img.title = member.username;
+                                avatarsContainer.appendChild(img);
+                            }
+                        });
+
+                        // لو فيه أكتر من 6 هنحط دايرة فيها العدد الباقي من الأعضاء الحقيقيين
+                        if(realMembers.length > 6) {
+                            const extraCount = realMembers.length - 6;
+                            const moreDiv = document.createElement('div');
+                            moreDiv.className = 'more-avatars';
+                            moreDiv.textContent = '+' + extraCount;
+                            avatarsContainer.appendChild(moreDiv);
+                        }
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching Discord stats:', error);
@@ -271,44 +741,65 @@
         }
         document.addEventListener('DOMContentLoaded', fetchDiscordStats);
 
-        // --- 2. الترجمة ---
+        // مودال القوانين
+        function openRulesModal() { document.getElementById('rulesModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeRulesModal(event) { if(event) event.stopPropagation(); document.getElementById('rulesModal').classList.remove('active'); document.body.style.overflow = 'auto'; }
+
+        // أكورديون الأسئلة الشائعة
+        function toggleFaq(element) {
+            const isActive = element.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(item => item.classList.remove('active'));
+            if (!isActive) element.classList.add('active');
+        }
+
+        // زرار الرجوع للأعلى
+        window.onscroll = function() {
+            let btn = document.getElementById("scrollTopBtn");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.style.display = "flex";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // الترجمة
         const translations = {
             en: {
-                nav_home: "Home", nav_about: "Who We Are", nav_rules: "Rules", nav_games: "Games", nav_downloads: "Apps", nav_quran: "Quran",
-                hero_title: "What's up! Welcome to <span>Academic Society</span>",
-                hero_desc: "Your chill spot to learn, share cool ideas, and level up together. Hop in and let's build the future, bro.",
-                hero_btn: "Join us on Discord",
-                stat_members: "Members", stat_online: "Online", stat_voice: "In Voice", stat_channels: "Channels",
-                about_title: "Who Are We?",
-                about_desc: "This server is just a chill place to hang out, play games, talk, laugh, and meet cool people...<br><br>Simple as that:<br>Join, vibe, and enjoy",
+                nav_home: "Home", nav_about: "Who We Are",
+                feat_leveling_title: "Leveling & Ranks", feat_leveling_desc: "A ranking system that encourages commitment and positive participation in study and general channels.", nav_features: "Features", nav_team: "Our Team", nav_rules: "Rules", nav_timers: "Timers", nav_quran: "Al-Maher", nav_faq: "FAQ",
+                hero_title: "Welcome to <span>Academic Society</span>", hero_desc: "Your dedicated space for studying, time management, and entertainment in a respectful community. Join us and build a healthy routine.", hero_btn: "Join us on Discord", btn_rules: "Server Rules",
+                stat_members: "Members", stat_online: "Online", stat_voice: "In Voice", stat_channels: "Channels", stat_live_now: "Active Members",
+                about_title: "Who Are We?", about_desc: "Welcome to Academic Society. Our server is a respectful and calm space that combines focused studying with entertainment. We aim to provide an environment that helps you accomplish your tasks and organize your day, while also offering a place to relax and play with respectful members.<br><br>The server offers quiet study rooms for deep focus, gaming rooms for your break time, and dedicated bots to help you manage your time (like Pomodoro) and listen to the Holy Quran.<br><br>Whether you are looking for a highly focused study environment or want to unwind with games in a respectful community, you have found your place with us.",
+                features_title: "Server Features", feat_study_title: "Study Rooms", feat_study_desc: "Quiet rooms dedicated to focused studying, where you can turn on your cam or screen share with peers.", feat_gaming_title: "Gaming Channels", feat_gaming_desc: "Break time is important. We provided dedicated rooms to play your favorite games with members respectfully.", feat_bots_title: "Organization & Utilities", feat_bots_desc: "Helpful bots to assist you in organizing your day, managing your time, and listening to the Quran.", feat_events_title: "Community Events", feat_events_desc: "Weekly gatherings and light competitions to disconnect from study stress.",
+                quran_title: "Al-Maher for Quran", quran_desc: "Immerse yourself in the words of Allah. Listen, read, and reflect on the Holy Quran through our dedicated platform, beautifully designed for your spiritual journey.", quran_btn: "Enter Al-Maher",
                 rules_title: "Server Rules", rule_1_title: "1. Respect is Key", rule_1_desc: "No insults, belittling, bullying...", rule_2_title: "2. Keep Jokes Light", rule_2_desc: "Joking is fine, but if it bothers someone, stop it.", rule_3_title: "3. No Spamming", rule_3_desc: "Do not repeat messages...", rule_4_title: "4. No NSFW Content", rule_4_desc: "Anything inappropriate is strictly forbidden.", rule_5_title: "5. No Mocking Religion", rule_5_desc: "This is a Muslim server...", rule_6_title: "6. No Unauthorized Links", rule_6_desc: "Any link must be approved.", rule_7_title: "7. Use Channels Correctly", rule_7_desc: "Post in the right place.", rule_8_title: "8. Resolve Issues Calmly", rule_8_desc: "Do not drag fights into public.", rule_9_title: "9. Privacy is a Red Line", rule_9_desc: "Do not share personal info.", rule_10_title: "10. Admin Decisions are Final", rule_10_desc: "Violations result in bans.",
-                games_title: "Games Hub", games_desc: "Take a break and enjoy some games.", game1_title: "Snake Game 🐍", game1_desc: "Classic snake game with a twist!", btn_play: "Play Now",
-                downloads_title: "Our Apps", downloads_desc: "Download tools for our community.", 
-                pomo_pc_title: "Pomodoro PC", pomo_pc_desc: "Advanced Pomodoro timer for Desktop.",
-                pomo_mob_title: "Pomodoro Mobile", pomo_mob_desc: "Optimized Pomodoro timer for Mobile devices.",
-                prog1_title: "Al Maher", prog1_desc: "Desktop application for the Quran.", prog2_title: "Eto Temp Cleaner", prog2_desc: "Cache cleaner and PC speed-up tool.", prog3_title: "Converter Images", prog3_desc: "Easy image format converter.", prog4_title: "Calculator", prog4_desc: "Simple and fast scientific calculator.", btn_download: "Download", btn_open: "Open App",
-                footer_text: "© 2026 Academic Society. All rights reserved"
+                team_section_title: "Meet Our Team", role_owner: "Owner", role_admin: "Admin",
+                team_mohanned: "Mohanned", team_mohammed: "Mohammed", team_abdo: "Abdo", team_yossef: "Yossef Abbas", team_ahmed: "Ahmed Riyad",
+                faq_title: "Frequently Asked Questions", faq_q1: "How can I join the voice channels?", faq_a1: "You just need to join our Discord server, read the rules, and you will automatically get the member role to access all voice channels.", faq_q2: "Is the server only for studying?", faq_a2: "Not at all! While we have dedicated study zones, we also have gaming channels, respectful general chat, and regular community events.", faq_q3: "How do I become a moderator?", faq_a3: "We occasionally open applications for staff. Be active, help others, and keep an eye on the announcements channel!",
+                timers_title: "Timers Hub", timers_desc: "Choose your preferred Pomodoro timer.", pomo_pc_title: "Pomodoro PC", pomo_pc_desc: "Advanced Pomodoro timer for Desktop.", pomo_mob_title: "Pomodoro Mobile", pomo_mob_desc: "Optimized Pomodoro timer for Mobile devices.", btn_open: "Open App",
+                footer_text: "© 2026 Academic Society. All rights reserved - صلِ على النبي"
             },
             ar: {
-                nav_home: "الرئيسية", nav_about: "مين إحنا؟", nav_rules: "القوانين", nav_games: "الألعاب", nav_downloads: "التطبيقات", nav_quran: "القرآن الكريم",
-                hero_title: "يا هلا بيك في <span>Academic Society</span>",
-                hero_desc: "مكانك الرايق للتعليم ومشاركة الأفكار الحلوة. بنكبر مع بعض وبنعلي دماغنا. انضم لشلتنا وخليك جزء من المستقبل.",
-                hero_btn: "نورنا ع الديسكورد",
-                stat_members: "عضو بالسيرفر", stat_online: "متصل الآن", stat_voice: "في الرومات الصوتية", stat_channels: "روم بالسيرفر",
-                about_title: "مين إحنا؟",
-                about_desc: "إحنا سيرفر جديد ولسه في بدايته، لكن هدفنا إننا نعمل مجتمع محترم وراقي يجمع بين المذاكرة والمتعة في نفس الوقت. بنكبر واحدة واحدة، وعايزين كل عضو يكون جزء من الرحلة دي.<br><br>فكرة السيرفر بسيطة:<br>لو بتواجه صعوبة تذاكر لوحدك، هنا هتلاقي رومات مخصصة للمذاكرة تقدر تدخلها، تفتح كام أو تعمل ستريم وانت بتذاكر، وتكون وسط ناس عندها نفس الهدف وبتحاول تطور من نفسها. الجو العام هادي ومحفز، وكلنا بنشجع بعض على الالتزام والتركيز.<br><br>السيرفر مش مذاكرة وبس. تقدر كمان تفصل شوية، تلعب ألعاب مع الأعضاء، تدخل فويس شات، تتكلم، تتعرف على ناس جديدة، وتشارك اهتماماتك وأفكارك بحرية في إطار من الاحترام.<br><br>إحنا بنحاول نطور السيرفر باستمرار، وأي اقتراح من الأعضاء بيفرق معانا. كل شخص بينضم لينا مش مجرد رقم، لكنه إضافة حقيقية للمجتمع اللي بنبنيه.<br><br>لو جاي تذاكر، هتلاقي ناس شبهك. ولو جاي تتعرف وتشارك وتستفيد، هتلاقي مكانك هنا.",
-                rules_title: "قوانين السيرفر", rule_1_title: "1. الاحترام أساس", rule_1_desc: "مفيش شتيمة، تقليل، تنمر...", rule_2_title: "2. بلاش هزار تقيل", rule_2_desc: "الهزار حلو بس بحدود.", rule_3_title: "3. مفيش سبام", rule_3_desc: "ممنوع تكرار رسايل.", rule_4_title: "4. مفيش محتوى +18", rule_4_desc: "ممنوع منعا باتا.", rule_5_title: "5. ممنوع الاستهزاء بالدين", rule_5_desc: "ممنوع السخرية من الدين.", rule_6_title: "6. ممنوع نشر روابط", rule_6_desc: "إلا بإذن الإدارة.", rule_7_title: "7. كل روم ليها استخدام", rule_7_desc: "اكتب في المكان الصح.", rule_8_title: "8. حل مشاكلك بهدوء", rule_8_desc: "مفيش خناقات في العام.", rule_9_title: "9. الخصوصية خط أحمر", rule_9_desc: "ممنوع نشر معلومات حد.", rule_10_title: "10. الإدارة قرارها نهائي", rule_10_desc: "المخالفة تؤدي للطرد.",
-                games_title: "مركز الألعاب", games_desc: "خد بريك واستمتع بشوية ألعاب.", game1_title: "لعبة الثعبان 🐍", game1_desc: "لعبة التعبان الكلاسيكية!", btn_play: "العب دلوقتي",
-                downloads_title: "مركز التحميلات", downloads_desc: "حمل كل البرامج والأدوات اللي عملناها.", 
-                pomo_pc_title: "بومودورو للكمبيوتر", pomo_pc_desc: "مؤقت بومودورو متقدم مخصص لأجهزة الكمبيوتر.",
-                pomo_mob_title: "بومودورو للموبايل", pomo_mob_desc: "مؤقت بومودورو مصمم خصيصاً للهواتف.",
-                prog1_title: "الماهر", prog1_desc: "برنامج القرآن الكريم الماهر.", prog2_title: "Eto Temp Cleaner", prog2_desc: "أداة تنظيف الكاش وتسريع الجهاز.", prog3_title: "Converter Images", prog3_desc: "برنامج تحويل صيغ الصور.", prog4_title: "الآلة الحاسبة", prog4_desc: "آلة حاسبة علمية سريعة وبسيطة.", btn_download: "تحميل البرنامج", btn_open: "فتح الأداة",
-                footer_text: "© 2026 Academic Society. كل الحقوق محفوظة ."
+                nav_home: "الرئيسية", nav_about: "مين إحنا؟",
+                feat_leveling_title: "نظام الرتب", feat_leveling_desc: "نظام رتب بيشجعك على الالتزام والمشاركة الإيجابية في رومات المذاكرة والتفاعل العام.", nav_features: "المميزات", nav_team: "فريق العمل", nav_rules: "القوانين", nav_timers: "التايمرز", nav_quran: "الماهر (قرآن)", nav_faq: "الأسئلة الشائعة",
+                hero_title: "أهلاً بيك في <span>Academic Society</span>", hero_desc: "مساحتك الخاصة للمذاكرة، تنظيم الوقت، والترفيه في مجتمع محترم. انضم لينا وابدأ روتينك صح.", hero_btn: "نورنا ع الديسكورد", btn_rules: "قوانين السيرفر",
+                stat_members: "عضو بالسيرفر", stat_online: "متصل الآن", stat_voice: "في الرومات الصوتية", stat_channels: "روم بالسيرفر", stat_live_now: "أعضاء متصلين حالياً",
+                about_title: "مين إحنا؟", about_desc: "السيرفر اتعمل عشان يكون مساحة محترمة وهادية بتجمع بين التركيز في المذاكرة ووقت الترفيه. هدفنا نوفرلك بيئة تساعدك تنجز مهامك وترتب يومك، وفي نفس الوقت تلاقي مكان تروّق فيه وتلعب مع ناس محترمة.<br><br>السيرفر بيوفرلك رومات مذاكرة هادية بيسودها الالتزام، رومات ألعاب لوقت البريك، وبوتات مخصصة لمساعدتك في تنظيم وقتك (زي البومودورو) وسماع القرآن الكريم.<br><br>لو بتدور على مكان تذاكر فيه بتركيز عالي، أو تفصل شوية بألعاب مع مجتمع راقي ومحترم.. مكانك هنا معانا.",
+                features_title: "مميزات السيرفر", feat_study_title: "رومات المذاكرة", feat_study_desc: "رومات هادية مخصصة للمذاكرة بتركيز، تقدر تفتح شير سكرين وتذاكر مع زمايلك في بيئة محفزة.", feat_gaming_title: "رومات الألعاب", feat_gaming_desc: "وقت البريك مهم.. وفرنالك رومات مخصصة عشان تلعب ألعابك المفضلة مع باقي الأعضاء باحترام وروح رياضية.", feat_bots_title: "بوتات التنظيم والترفيه", feat_bots_desc: "بوتات محترمة بتساعدك في ترتيب يومك، إدارة وقتك، وبوتات تانية للقرآن الكريم.", feat_events_title: "فعاليات محترمة", feat_events_desc: "فعاليات أسبوعية ومسابقات خفيفة عشان نفصل بيها من ضغط المذاكرة والشغل.",
+                quran_title: "الماهر للقرآن الكريم", quran_desc: "موقع الماهر للقرآن الكريم فيه جميع القراء إن شاء الله. ادخل اختار القارئ واختار السورة وربنا يوفقك ويثبتك.", quran_btn: "دخول موقع الماهر",
+                rules_title: "قوانين السيرفر", rule_1_title: "1. الاحترام أساس", rule_1_desc: "مفيش شتيمة، تقليل، تنمر...", rule_2_title: "2. بلاش هزار تقيل", rule_2_desc: "الهزار حلو بس بحدود وميضايقش حد.", rule_3_title: "3. مفيش سبام", rule_3_desc: "ممنوع تكرار رسايل مزعجة.", rule_4_title: "4. مفيش محتوى +18", rule_4_desc: "ممنوع منعا باتا أي تجاوز.", rule_5_title: "5. ممنوع الاستهزاء بالدين", rule_5_desc: "ممنوع السخرية من أي دين أو معتقد.", rule_6_title: "6. ممنوع نشر روابط", rule_6_desc: "إلا بإذن مسبق من الإدارة.", rule_7_title: "7. كل روم ليها استخدام", rule_7_desc: "استخدم الرومات في الغرض المخصص ليها.", rule_8_title: "8. حل مشاكلك بهدوء", rule_8_desc: "ممنوع الخناق والمشاكل في العام.", rule_9_title: "9. الخصوصية خط أحمر", rule_9_desc: "ممنوع نشر معلومات حد بدون إذنه.", rule_10_title: "10. الإدارة قرارها نهائي", rule_10_desc: "أي مخالفة ممكن تؤدي للطرد.",
+                team_section_title: "فريق العمل بتاعنا", role_owner: "أونر", role_admin: "أدمن",
+                team_mohanned: "مهند", team_mohammed: "محمد", team_abdo: "عبدو", team_yossef: "يوسف عباس", team_ahmed: "أحمد رياض",
+                faq_title: "الأسئلة الشائعة", faq_q1: "إزاي أدخل الرومات الصوتية؟", faq_a1: "بمجرد دخولك السيرفر وقراءتك للقوانين، هتاخد رول يفتحلك كل الرومات الصوتية تلقائياً.", faq_q2: "السيرفر للمذاكرة بس؟", faq_a2: "أكيد لأ! بجانب رومات المذاكرة الأساسية، عندنا رومات للألعاب، شات عام للنقاشات المحترمة، وفعاليات بنعملها للترفيه للترفيه وفصلان الدماغ.", faq_q3: "إزاي أبقى أدمن أو مودريتور؟", faq_a3: "من وقت للتاني بنفتح باب التقديم للإدارة. خليك متفاعل ومحترم ومساعد لغيرك، وتابع روم الإعلانات!",
+                timers_title: "التايمر", timers_desc: "اختار مؤقت البومودورو اللي يريحك عشان تنظم وقتك.", pomo_pc_title: "بومودورو للكمبيوتر", pomo_pc_desc: "تايمر للكومبيوتر تقدر تحط وقت براحتك وبريك وتقدر تكتب مهماتك ومتخفش هتتحفظ وكمان تقدر تغير لون اي حاجه ف التايمر ولو عندك مشكله كلم الادمنز", pomo_mob_title: "بومودورو للموبايل", pomo_mob_desc: " تايمر للموبايل تقدر تحط وقت براحتك وتقدر تكتب مهماتك ومتخفش هتتحفظ وكمان تقدر تغير لون اي حاجه ف التايمر ولو عندك مشكله كلم الادمنز ", btn_open: "فتح الأداة",
+                footer_text: "© 2026 Academic Society. كل الحقوق محفوظة - صلِ على النبي"
             }
         };
 
         let currentLang = 'en';
-
         function toggleLanguage() {
             document.body.style.opacity = '0';
             setTimeout(() => {
@@ -325,7 +816,37 @@
                 document.body.style.opacity = '1';
             }, 300);
         }
+        function toggleSocialSidebar() {
+            const sidebar = document.getElementById('socialSidebar');
+            const icon = document.getElementById('sidebarIcon');
+            sidebar.classList.toggle('active');
+            
+            const isRtl = document.documentElement.dir === 'rtl';
+            const isActive = sidebar.classList.contains('active');
+            
+            // ضبط شكل السهم حسب الحالة واللغة
+            if (isActive) {
+                icon.className = isRtl ? 'fa-solid fa-chevron-right' : 'fa-solid fa-chevron-left';
+            } else {
+                icon.className = isRtl ? 'fa-solid fa-chevron-left' : 'fa-solid fa-chevron-right';
+            }
+        }
+        function toggleTiktokCard(event) {
+            event.stopPropagation(); // عشان الضغطة متسمعش في حتة تانية وتقفله
+            const card = document.getElementById('tkPopupCard');
+            card.classList.toggle('show');
+        }
 
+        // قفل الكارت لو اليوزر داس في أي مكان فاضي في الشاشة
+        document.addEventListener('click', function(event) {
+            const card = document.getElementById('tkPopupCard');
+            const btn = document.querySelector('.footer-tk-btn');
+            
+            // لو الكارت مفتوح، واليوزر داس برا الكارت وبرا الزرار.. اقفله
+            if (card && card.classList.contains('show') && !card.contains(event.target) && event.target !== btn) {
+                card.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>
